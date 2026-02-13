@@ -1,4 +1,4 @@
-baseURL = "https://docs.lenalab.org/"
+baseURL = "https://gongpyung.github.io/"
 title = "LENA"
 theme = "hugo-geekdoc"
 
