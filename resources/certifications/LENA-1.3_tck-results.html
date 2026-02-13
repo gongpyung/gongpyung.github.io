@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LENA 1.3 TCK Results - Jakarta EE Full Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 1.6em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+            font-weight: normal;
+        }
+
+        h3 {
+            color: #333;
+            font-size: 1.3em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        h4 {
+            color: #333;
+            font-size: 1.1em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .cert-info {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+        }
+
+        .cert-info p {
+            margin: 8px 0;
+            padding: 0;
+        }
+
+        .cert-info strong {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .spec-list {
+            list-style-type: disc;
+            margin-left: 30px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .spec-list li {
+            margin: 5px 0;
+        }
+
+        .test-results {
+            margin: 20px 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .test-item {
+            margin: 15px 0;
+            padding: 0;
+        }
+
+        .test-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .test-detail {
+            margin-left: 20px;
+            color: #555;
+        }
+
+        .link {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .standalone-section {
+            margin-top: 30px;
+        }
+
+        .standalone-item {
+            margin: 30px 0;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .standalone-item:last-child {
+            border-bottom: none;
+        }
+
+        .standalone-item h4 {
+            margin-bottom: 8px;
+        }
+
+        .standalone-item .sha {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            color: #666;
+            margin: 5px 0 15px 0;
+        }
+
+        .note {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px 15px 0px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 10px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>TCK Results</h1>
+        <p style="color: #666; font-size: 1em;">LENA Full Platform Certification Results</p>
+    </div>
+
+    <h2>Introduction</h2>
+    <p>As required by the <a href="https://www.eclipse.org/legal/tck.php" class="link" target="_blank">Eclipse Foundation Technology Compatibility Kit License</a>, following is a summary of the TCK results for releases of Jakarta EE Platform 10.</p>
+
+    <h2>LENA Full Platform, Certification Summary</h2>
+    <div class="cert-info">
+        <p><strong>Date:</strong> Nov 14, 2025</p>
+        <p><strong>Product Name, Version:</strong> LENA 1.3 </p>
+        <p><strong>Product Description:</strong> An implementation of the Jakarta EE 10 Full Platform Specification</p>
+        <p><strong>Java SE provider and Version tested with:</strong> OpenJDK 17.0.2 (build 17.0.2+8)</p>
+        <p><strong>OS version:</strong> CentOS Linux 8</p>
+        <p><strong>Database version:</strong> Apache Derby Network Server 10.15.2.0</p>
+        <p><strong>Database JDBC Driver and version:</strong> Apache Derby 10.15.2.0</p>
+    </div>
+
+    <div class="cert-info" style="background-color: transparent; border: none; padding: 0;">
+        <p><strong>Specification Name, Version and download URL:</strong></p>
+        <p><a href="https://jakarta.ee/specifications/platform/10" class="link" target="_blank">Jakarta EE Platform, 10</a></p>
+
+        <p><strong>TCK Version, digital SHA-256 fingerprint and download URL:</strong></p>
+        <p><a href="https://download.eclipse.org/jakartaee/platform/10/jakarta-jakartaeetck-10.0.6.zip" class="link" target="_blank">10.0.6, c3c7e37ceeb4073d3cbf70826563ea1c37ad85fd9ff180f7e3330e2cd73b934d</a></p>
+
+        <p><strong>Any Additional Specification Certification Requirements:</strong></p>
+        <div style="background-color: #f5f5f5; border: 1px solid #ddd; padding: 20px; margin-top: 10px;">
+            <ul class="spec-list">
+                <li>Jakarta Activation</li>
+                <li>Jakarta Authentication</li>
+                <li>Jakarta Batch</li>
+                <li>Jakarta Bean Validation</li>
+                <li>Jakarta Concurrency</li>
+                <li>Jakarta Contexts and Dependency Injection</li>
+                <li>Jakarta Debugging Support for Other Languages</li>
+                <li>Jakarta Dependency Injection</li>
+                <li>Jakarta Faces</li>
+                <li>Jakarta JSON Binding</li>
+                <li>Jakarta JSON Processing</li>
+                <li>Jakarta Mail</li>
+                <li>Jakarta RESTFul Web Services</li>
+                <li>Jakarta Security</li>
+                <li>Jakarta XML Binding</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Platform TCK Test results</h2>
+    <p>Test results:</p>
+    <pre>
+Test name: appclient
+[javatest.batch] Completed running 36 tests.
+[javatest.batch] Number of Tests Passed      = 36
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: assembly
+[javatest.batch] Completed running 30 tests.
+[javatest.batch] Number of Tests Passed      = 30
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: connector
+[javatest.batch] Completed running 477 tests.
+[javatest.batch] Number of Tests Passed      = 477
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: ejb30_assembly
+[javatest.batch] Completed running 51 tests.
+[javatest.batch] Number of Tests Passed      = 51
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: ejb30_bb
+[javatest.batch] Completed running 1093 tests.
+[javatest.batch] Number of Tests Passed      = 1093
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: ejb30_lite
+[javatest.batch] Completed running 1868 tests.
+[javatest.batch] Number of Tests Passed      = 1868
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: ejb30_misc
+[javatest.batch] Completed running 100 tests.
+[javatest.batch] Number of Tests Passed      = 100
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: ejb30_sec
+[javatest.batch] Completed running 99 tests.
+[javatest.batch] Number of Tests Passed      = 99
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: ejb30_timer
+[javatest.batch] Completed running 178 tests.
+[javatest.batch] Number of Tests Passed      = 178
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: ejb30_tx
+[javatest.batch] Completed running 81 tests.
+[javatest.batch] Number of Tests Passed      = 81
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: ejb30_webservice
+[javatest.batch] Completed running 3 tests.
+[javatest.batch] Number of Tests Passed      = 3
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: ejb32
+[javatest.batch] Completed running 704 tests.
+[javatest.batch] Number of Tests Passed      = 704
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: el
+[javatest.batch] Completed running 695 tests.
+[javatest.batch] Number of Tests Passed      = 695
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: integration_sec_propagation
+[javatest.batch] Completed running 3 tests.
+[javatest.batch] Number of Tests Passed      = 3
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: integration_sec_secbasicssl
+[javatest.batch] Completed running 9 tests.
+[javatest.batch] Number of Tests Passed      = 9
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: integration_session
+[javatest.batch] Completed running 3 tests.
+[javatest.batch] Number of Tests Passed      = 3
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jacc_ejb
+[javatest.batch] Completed running 16 tests.
+[javatest.batch] Number of Tests Passed      = 16
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jacc_web
+[javatest.batch] Completed running 24 tests.
+[javatest.batch] Number of Tests Passed      = 24
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: javaee
+[javatest.batch] Completed running 24 tests.
+[javatest.batch] Number of Tests Passed      = 24
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: javamail
+[javatest.batch] Completed running 112 tests.
+[javatest.batch] Number of Tests Passed      = 112
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jaxrs
+[javatest.batch] Completed running 138 tests.
+[javatest.batch] Number of Tests Passed      = 138
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jdbc_ee_batchUpdate
+[javatest.batch] Completed running 68 tests.
+[javatest.batch] Number of Tests Passed      = 68
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jdbc_ee_callStmt
+[javatest.batch] Completed running 1592 tests.
+[javatest.batch] Number of Tests Passed      = 1592
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jdbc_ee_connection
+[javatest.batch] Completed running 36 tests.
+[javatest.batch] Number of Tests Passed      = 36
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jdbc_ee_dateTime
+[javatest.batch] Completed running 152 tests.
+[javatest.batch] Number of Tests Passed      = 152
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jdbc_ee_dbMeta
+[javatest.batch] Completed running 940 tests.
+[javatest.batch] Number of Tests Passed      = 940
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jdbc_ee_escapeSyntax
+[javatest.batch] Completed running 324 tests.
+[javatest.batch] Number of Tests Passed      = 324
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jdbc_ee_exception
+[javatest.batch] Completed running 56 tests.
+[javatest.batch] Number of Tests Passed      = 56
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jdbc_ee_prepStmt
+[javatest.batch] Completed running 1084 tests.
+[javatest.batch] Number of Tests Passed      = 1084
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jdbc_ee_resultSet
+[javatest.batch] Completed running 456 tests.
+[javatest.batch] Number of Tests Passed      = 456
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jdbc_ee_rsMeta
+[javatest.batch] Completed running 84 tests.
+[javatest.batch] Number of Tests Passed      = 84
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jdbc_ee_stmt
+[javatest.batch] Completed running 132 tests.
+[javatest.batch] Number of Tests Passed      = 132
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jms_core
+[javatest.batch] Completed running 2379 tests.
+[javatest.batch] Number of Tests Passed      = 2379
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jms_core20
+[javatest.batch] Completed running 852 tests.
+[javatest.batch] Number of Tests Passed      = 852
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jms_ee
+[javatest.batch] Completed running 207 tests.
+[javatest.batch] Number of Tests Passed      = 207
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jms_ee20
+[javatest.batch] Completed running 72 tests.
+[javatest.batch] Number of Tests Passed      = 72
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_StoredProcedureQuery
+[javatest.batch] Completed running 226 tests.
+[javatest.batch] Number of Tests Passed      = 226
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_annotations
+[javatest.batch] Completed running 890 tests.
+[javatest.batch] Number of Tests Passed      = 890
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_basic
+[javatest.batch] Completed running 12 tests.
+[javatest.batch] Number of Tests Passed      = 12
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_cache
+[javatest.batch] Completed running 20 tests.
+[javatest.batch] Number of Tests Passed      = 20
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_callback
+[javatest.batch] Completed running 396 tests.
+[javatest.batch] Number of Tests Passed      = 396
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_criteriaapi_CriteriaBuilder
+[javatest.batch] Completed running 930 tests.
+[javatest.batch] Number of Tests Passed      = 930
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_criteriaapi_CriteriaDelete
+[javatest.batch] Completed running 42 tests.
+[javatest.batch] Number of Tests Passed      = 42
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_criteriaapi_CriteriaQuery
+[javatest.batch] Completed running 228 tests.
+[javatest.batch] Number of Tests Passed      = 228
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_criteriaapi_CriteriaUpdate
+[javatest.batch] Completed running 60 tests.
+[javatest.batch] Number of Tests Passed      = 60
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_criteriaapi_From
+[javatest.batch] Completed running 174 tests.
+[javatest.batch] Number of Tests Passed      = 174
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_criteriaapi_Join
+[javatest.batch] Completed running 210 tests.
+[javatest.batch] Number of Tests Passed      = 210
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_criteriaapi_Root
+[javatest.batch] Completed running 156 tests.
+[javatest.batch] Number of Tests Passed      = 156
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_criteriaapi_metamodelquery
+[javatest.batch] Completed running 900 tests.
+[javatest.batch] Number of Tests Passed      = 900
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_criteriaapi_misc
+[javatest.batch] Completed running 204 tests.
+[javatest.batch] Number of Tests Passed      = 204
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_criteriaapi_parameter
+[javatest.batch] Completed running 48 tests.
+[javatest.batch] Number of Tests Passed      = 48
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_criteriaapi_strquery
+[javatest.batch] Completed running 774 tests.
+[javatest.batch] Number of Tests Passed      = 774
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_derivedid
+[javatest.batch] Completed running 42 tests.
+[javatest.batch] Number of Tests Passed      = 42
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_entitytest
+[javatest.batch] Completed running 1477 tests.
+[javatest.batch] Number of Tests Passed      = 1477
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_enums
+[javatest.batch] Completed running 317 tests.
+[javatest.batch] Number of Tests Passed      = 317
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_exceptions
+[javatest.batch] Completed running 34 tests.
+[javatest.batch] Number of Tests Passed      = 34
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_inheritance
+[javatest.batch] Completed running 60 tests.
+[javatest.batch] Number of Tests Passed      = 60
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_lock
+[javatest.batch] Completed running 34 tests.
+[javatest.batch] Number of Tests Passed      = 34
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_metamodelapi
+[javatest.batch] Completed running 1554 tests.
+[javatest.batch] Number of Tests Passed      = 1554
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_nestedembedding
+[javatest.batch] Completed running 18 tests.
+[javatest.batch] Number of Tests Passed      = 18
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_override
+[javatest.batch] Completed running 156 tests.
+[javatest.batch] Number of Tests Passed      = 156
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_persistenceUtil
+[javatest.batch] Completed running 6 tests.
+[javatest.batch] Number of Tests Passed      = 6
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_persistenceUtilUtil
+[javatest.batch] Completed running 18 tests.
+[javatest.batch] Number of Tests Passed      = 18
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_query
+[javatest.batch] Completed running 1212 tests.
+[javatest.batch] Number of Tests Passed      = 1212
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_relationship
+[javatest.batch] Completed running 198 tests.
+[javatest.batch] Number of Tests Passed      = 198
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_types
+[javatest.batch] Completed running 306 tests.
+[javatest.batch] Number of Tests Passed      = 306
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_core_versioning
+[javatest.batch] Completed running 6 tests.
+[javatest.batch] Number of Tests Passed      = 6
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_ee
+[javatest.batch] Completed running 181 tests.
+[javatest.batch] Number of Tests Passed      = 181
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jpa_jpa22
+[javatest.batch] Completed running 100 tests.
+[javatest.batch] Number of Tests Passed      = 100
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jsonb
+[javatest.batch] Completed running 18 tests.
+[javatest.batch] Number of Tests Passed      = 18
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jsonp
+[javatest.batch] Completed running 76 tests.
+[javatest.batch] Number of Tests Passed      = 76
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jsp
+[javatest.batch] Completed running 735 tests.
+[javatest.batch] Number of Tests Passed      = 735
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jstl
+[javatest.batch] Completed running 541 tests.
+[javatest.batch] Number of Tests Passed      = 541
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: jta
+[javatest.batch] Completed running 141 tests.
+[javatest.batch] Number of Tests Passed      = 141
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: servlet
+[javatest.batch] Completed running 1725 tests.
+[javatest.batch] Number of Tests Passed      = 1725
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: signaturetest_javaee
+[javatest.batch] Completed running 4 tests.
+[javatest.batch] Number of Tests Passed      = 4
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: webservices12
+[javatest.batch] Completed running 242 tests.
+[javatest.batch] Number of Tests Passed      = 242
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: webservices13
+[javatest.batch] Completed running 53 tests.
+[javatest.batch] Number of Tests Passed      = 53
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: websocket
+[javatest.batch] Completed running 748 tests.
+[javatest.batch] Number of Tests Passed      = 748
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+
+Test name: xa
+[javatest.batch] Completed running 66 tests.
+[javatest.batch] Number of Tests Passed      = 66
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+        </pre>
+
+    <h2>Additional standalone TCK Test results</h2>
+
+    <div class="standalone-section">
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/activation/2.1/jakarta-activation-tck-2.1.0.zip" class="link" target="_blank">Jakarta Activation 2.1 TCK</a></h4>
+            <div class="sha">SHA-256: 6c4aad27e45761dd9f3e0f8506f37edea41f42401465db750689145718b27a0b</div>
+            TCK result summary:
+            <pre>
+[javatest.batch] Number of tests completed:  91 (91 pass, 0 fail, 0 errors)
+[javatest.batch] ***************************************************************
+[javatest.batch] Completed running 91 tests.
+[javatest.batch] Number of Tests Passed      = 91
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+[javatest.batch] Number of Tests Not Run     = 0
+                </pre>
+        </div>
+
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/authentication/3.0/jakarta-authentication-tck-3.0.1.zip" class="link" target="_blank">Jakarta Authentication 3.0.1 TCK</a></h4>
+            <div class="sha">SHA-256: 8b916f1b4aed828337bd88b34bb39b133f04611c2dfe71541c2ec5d2dd22cd54</div>
+            TCK result summary:
+            <pre>
+Tests run: 70, Failures: 0, Errors: 0, Skipped: 0
+failures=0 errors=0 standaloneauthenticationTests=61
+old authenticationPassingCount = 61
+old authenticationFailCount = 0
+                </pre>
+        </div>
+
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/batch/2.1/jakarta.batch.official.tck-2.1.1.zip" class="link" target="_blank">Jakarta Batch 2.1.1 TCK</a></h4>
+            <div class="sha">SHA-256: 0dd8ca0f35cc696ea86d0dffaa1301cf2786806832ea1b2a491d528eaa57b3b7</div>
+            TCK result summary:
+            <pre>
+Jakarta Batch TCK completed running 386 tests.
+Number of Tests Passed      = 386
+Number of Tests with Errors = 0
+Number of Tests Failed      = 0
+Number of Tests Skipped     = 14
+                </pre>
+        </div>
+
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/bean-validation/3.0/beanvalidation-tck-dist-3.0.1.zip" class="link" target="_blank">Jakarta Bean Validation 3.0.1 TCK</a></h4>
+            <div class="sha">SHA-256: 9da36d2d6e2eb8d413f886f15711820008419d210ce4c51af04f96e1ffd583b3</div>
+            TCK result summary:
+            <pre>
+[INFO] Running TestSuite
+[INFO] Tests run: 1045, Failures: 0, Errors: 0, Skipped: 0
+                </pre>
+        </div>
+
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/concurrency/3.0/concurrency-tck-3.0.4.zip" class="link" target="_blank">Jakarta Concurrency 3.0.4 TCK</a></h4>
+            <div class="sha">SHA-256: dd1b4659b5368447bacc2ea0134472fbd4bb3400c9883cfb98ab841378b4f9ca</div>
+            TCK result summary:
+            <pre>
+[INFO] Running TestSuite
+[INFO] Tests run: 149, Failures: 0, Errors: 0, Skipped: 0
+                </pre>
+        </div>
+
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/cdi/4.0/cdi-tck-4.0.13-dist.zip" class="link" target="_blank">Jakarta Contexts and Dependency Injection 4.0.12 TCK</a></h4>
+            <div class="sha">SHA-256: 566c547e1a9c66792eefcc6feafea87ab0c0f2e3f71385bf96865359a685df00</div>
+            TCK result summary:
+            <pre>
+Tests run: 1821, Failures: 0, Errors: 0, Skipped: 0
+                </pre>
+        </div>
+
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/debugging/2.0/jakarta-debugging-tck-2.0.0.zip" class="link" target="_blank">Jakarta Debugging Support for Other Languages 2.0 TCK</a></h4>
+            <div class="sha">SHA-256: 71999815418799837dc6f3d0dc40c3dcc4144cd90c7cdfd06aa69270483d78bc</div>
+            TCK result summary:
+            <pre>
+Tests run: 1, Failures: 0, Errors: 0
+                </pre>
+        </div>
+
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/dependency-injection/2.0/jakarta.inject-tck-2.0.2-bin.zip" class="link" target="_blank">Jakarta Dependency Injection 2.0.2 TCK</a></h4>
+            <div class="sha">SHA-256: 23bce4317ca061c3de648566cdf65c74b57e1264d6891f366567955d6b834972</div>
+            TCK result summary:
+            <pre>
+[INFO] Tests run: 50, Failures: 0, Errors: 0, Skipped: 0
+                </pre>
+        </div>
+
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/faces/4.0/jakarta-faces-tck-4.0.3.zip" class="link" target="_blank">Jakarta Faces 4.0.3 TCK</a></h4>
+            <div class="sha">SHA-256: 153184ad38e522c45e74e5da7dd01b1f3be485f56e241a72728caa43479b07ec</div>
+            TCK result summary:
+            <pre>
+Tests run: 252, Failures: 0, Errors: 0
+                </pre>
+        </div>
+
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/jsonb/3.0/jakarta-jsonb-tck-3.0.0.zip" class="link" target="_blank">Jakarta JSON Binding 3.0 TCK</a></h4>
+            <div class="sha">SHA-256: 954fd9a3a67059ddeabe5f51462a6a3b542c94fc798094dd8c312a6a28ef2d0b</div>
+            TCK result summary:
+            <pre>
+Tests run: 295, Failures: 0, Errors: 0, Skipped: 5
+                </pre>
+        </div>
+
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/jsonp/2.1/jakarta-jsonp-tck-2.1.1.zip" class="link" target="_blank">Jakarta JSON Processing 2.1.1 TCK</a></h4>
+            <div class="sha">SHA-256: 949f203de84deffa8c7892b555918e42f1dd220ccb7b6800741ea58af62737c1</div>
+            TCK result summary:
+            <pre>
+Tests run: 179, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 18, Failures: 0, Errors: 0, Skipped: 0
+                </pre>
+        </div>
+
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/mail/2.1/jakarta-mail-tck-2.1.2.zip" class="link" target="_blank">Jakarta Mail 2.1.2 TCK</a></h4>
+            <div class="sha">SHA-256: 3d734e46d862648c56f4d223a7a8685fcf1f397ff18299a09f88039901209ae9</div>
+            TCK result summary:
+            <pre>
+Number of tests completed:  321 (321 pass, 0 fail, 0 errors)
+Test:  PASSED........com/sun/tdk/signaturetest/SignatureTest.java
+                </pre>
+        </div>
+
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/restful-ws/3.1/jakarta-restful-ws-tck-3.1.4.zip" class="link" target="_blank">Jakarta RESTful Web Services 3.1.4 TCK</a></h4>
+            <div class="sha">SHA-256: 5ec7e36808eca5f3a3b01f5eec018a30183e555071ca19da8055b22809a22c9d</div>
+            TCK result summary:
+            <pre>
+Tests run: 2796, Failures: 0, Errors: 0, Skipped: 130
+                </pre>
+        </div>
+
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/security/3.0/jakarta-security-tck-3.0.2.zip" class="link" target="_blank">Jakarta Security 3.0.2 TCK</a></h4>
+            <div class="sha">SHA-256: 9ecad6406031369efa70ac429f94140b4e35a58f216599d296ce19f944e70254</div>
+            TCK result summary:
+            <pre>
+Completed running 115 tests.
+Number of Tests Failed      = 0
+Number of Tests with Errors = 0
+
+[javatest.batch] Completed running 84 tests.
+[javatest.batch] Number of Tests Passed      = 84
+[javatest.batch] Number of Tests Failed      = 0
+[javatest.batch] Number of Tests with Errors = 0
+                </pre>
+        </div>
+
+        <div class="standalone-item">
+            <h4><a href="https://download.eclipse.org/jakartaee/xml-binding/4.0/jakarta-xml-binding-tck-4.0.2.zip" class="link" target="_blank">Jakarta XML Binding 4.0.2 TCK</a></h4>
+            <div class="sha">SHA-256: ab77f3501ad6d832280e5f58c68b0d963928f7470260b47ff52d62164a98dd6b</div>
+            TCK result summary:
+            <pre>
+Pass: 24,624  Fail: 0  Error: 0  Not-Run: 0
+               </pre>
+        </div>
+    </div>
+</div>
+</body>
+</html>
