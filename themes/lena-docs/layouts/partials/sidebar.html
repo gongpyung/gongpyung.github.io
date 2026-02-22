@@ -132,7 +132,7 @@
 
         <ul class="sidebar__menu" id="sidebarMenuDocs" role="list">
           {{- if and $activeMajorPage (not $activeIsEos) -}}
-            {{- range $activeMajorPage.Sections.ByWeight -}}
+            {{- range $activeMajorPage.Sections.ByWeight.Reverse -}}
               {{- $patch := . -}}
               {{- $isPatchOpen := false -}}
 
@@ -166,7 +166,7 @@
 
                   {{/* Release Notes = the section _index.md page itself */}}
                   <li>
-                    <a href="{{ $patch.Permalink }}"
+                    <a href="{{ $patch.RelPermalink }}"
                        class="sidebar__link sidebar__link--leaf sidebar__link--nested{{- if eq $currentPage.RelPermalink $patch.RelPermalink }} is-active{{- end -}}">
                       <svg class="sidebar__leaf-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                         <rect x="2" y="1.5" width="8" height="10" rx="1" stroke="currentColor" stroke-width="1.3"/>
@@ -179,7 +179,7 @@
                   {{/* Regular pages: Installation, User Guide */}}
                   {{- range $patch.RegularPages -}}
                     <li>
-                      <a href="{{ .Permalink }}"
+                      <a href="{{ .RelPermalink }}"
                          class="sidebar__link sidebar__link--leaf sidebar__link--nested{{- if eq $currentPage.RelPermalink .RelPermalink }} is-active{{- end -}}">
                         {{- if eq .Title "Installation" -}}
                         <svg class="sidebar__leaf-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -241,7 +241,7 @@
               <ul class="sidebar__submenu sidebar__submenu--major{{- if $isMajorOpen }} is-open{{- end -}}"
                   id="major-eos-{{ $major.Title | urlize }}"
                   role="list">
-                {{- range $major.Sections.ByWeight -}}
+                {{- range $major.Sections.ByWeight.Reverse -}}
                   {{- $patch := . -}}
                   {{- $isPatchOpen := false -}}
 
@@ -273,7 +273,7 @@
                         id="patch-{{ $patch.Title | urlize }}"
                         role="list">
                       <li>
-                        <a href="{{ $patch.Permalink }}"
+                        <a href="{{ $patch.RelPermalink }}"
                            class="sidebar__link sidebar__link--leaf sidebar__link--nested{{- if eq $currentPage.RelPermalink $patch.RelPermalink }} is-active{{- end -}}">
                           <svg class="sidebar__leaf-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                             <rect x="2" y="1.5" width="8" height="10" rx="1" stroke="currentColor" stroke-width="1.3"/>
@@ -284,7 +284,7 @@
                       </li>
                       {{- range $patch.RegularPages -}}
                         <li>
-                          <a href="{{ .Permalink }}"
+                          <a href="{{ .RelPermalink }}"
                              class="sidebar__link sidebar__link--leaf sidebar__link--nested{{- if eq $currentPage.RelPermalink .RelPermalink }} is-active{{- end -}}">
                             {{- if eq .Title "Installation" -}}
                             <svg class="sidebar__leaf-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -325,7 +325,7 @@
           {{- if and $dlRoot $activeMajorPage -}}
             {{- $dlMajor := $dlRoot.GetPage $activeMajorPage.Title -}}
             {{- if $dlMajor -}}
-              {{- range $dlMajor.Sections.ByWeight -}}
+              {{- range $dlMajor.Sections.ByWeight.Reverse -}}
                   {{- $dlPatch := . -}}
                   <li class="sidebar__group">
                     <button class="sidebar__group-btn sidebar__group-btn--patch"
