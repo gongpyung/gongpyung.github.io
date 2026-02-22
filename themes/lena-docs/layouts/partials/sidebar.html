@@ -1,0 +1,390 @@
+{{- $currentPage := . -}}
+{{- $docsRoot := .Site.GetPage "/docs" -}}
+{{- $currentMajorPage := false -}}
+{{- $currentPatchPage := false -}}
+
+{{/* Walk ancestors to detect current major version section */}}
+{{- if $docsRoot -}}
+  {{- range $currentPage.Ancestors -}}
+    {{- $ancestor := . -}}
+    {{- with .Parent -}}
+      {{- if eq .RelPermalink $docsRoot.RelPermalink -}}
+        {{- $currentMajorPage = $ancestor -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{/* Current page itself may be a major version section */}}
+  {{- if not $currentMajorPage -}}
+    {{- with $currentPage.Parent -}}
+      {{- if eq .RelPermalink $docsRoot.RelPermalink -}}
+        {{- $currentMajorPage = $currentPage -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{/* Walk ancestors to detect current patch version section */}}
+  {{- if $currentMajorPage -}}
+    {{- range $currentPage.Ancestors -}}
+      {{- $ancestor := . -}}
+      {{- with .Parent -}}
+        {{- if eq .RelPermalink $currentMajorPage.RelPermalink -}}
+          {{- $currentPatchPage = $ancestor -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{/* Current page itself may be a patch version section */}}
+    {{- if not $currentPatchPage -}}
+      {{- with $currentPage.Parent -}}
+        {{- if eq .RelPermalink $currentMajorPage.RelPermalink -}}
+          {{- $currentPatchPage = $currentPage -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Major versions sorted latest-first (reverse alphabetical works for 1.3.x) */}}
+{{- $majorVersions := slice -}}
+{{- if $docsRoot -}}
+  {{- $majorVersions = $docsRoot.Sections.ByTitle.Reverse -}}
+{{- end -}}
+
+{{/* Latest version = first in sorted list */}}
+{{- $latestVersion := "" -}}
+{{- range first 1 $majorVersions -}}
+  {{- $latestVersion = .Title -}}
+{{- end -}}
+
+{{/* Active major page: current context, or latest as default */}}
+{{- $activeMajorPage := $currentMajorPage -}}
+{{- if not $activeMajorPage -}}
+  {{- range first 1 $majorVersions -}}
+    {{- $activeMajorPage = . -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Split into live and EoS versions */}}
+{{- $liveVersions := slice -}}
+{{- $eosVersions := slice -}}
+{{- range $majorVersions -}}
+  {{- if .Params.eos -}}
+    {{- $eosVersions = $eosVersions | append . -}}
+  {{- else -}}
+    {{- $liveVersions = $liveVersions | append . -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Is current active page in an EoS section? */}}
+{{- $activeIsEos := false -}}
+{{- if $activeMajorPage -}}
+  {{- if $activeMajorPage.Params.eos -}}
+    {{- $activeIsEos = true -}}
+  {{- end -}}
+{{- end -}}
+
+<aside class="layout__sidebar sidebar" id="sidebar" role="complementary" aria-label="Sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__panel sidebar__panel--nav" id="sidebarNavPanel">
+
+    {{/* ── Collapse Button ── */}}
+    <button class="sidebar__collapse-btn" id="sidebarCollapseBtn" type="button" aria-label="사이드바 접기">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    {{/* ── Version Selector ── */}}
+    <div class="sidebar__version">
+      <label class="sidebar__version-label" for="versionSelect">Release Line</label>
+      <div class="sidebar__version-wrapper">
+        <select class="sidebar__version-select" id="versionSelect" aria-label="Select documentation version">
+          {{- range $majorVersions -}}
+            {{- $selected := false -}}
+            {{- if $currentMajorPage -}}
+              {{- if eq .RelPermalink $currentMajorPage.RelPermalink -}}
+                {{- $selected = true -}}
+              {{- end -}}
+            {{- end -}}
+            <option value="{{ .Title }}"{{- if $selected }} selected{{- end -}}>
+              {{- .Title -}}{{- if .Params.eos }} (EoS){{- else if eq .Title $latestVersion }} (Latest){{- end -}}
+            </option>
+          {{- end -}}
+        </select>
+        <svg class="sidebar__version-caret" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
+    {{/* ── Navigation ── */}}
+    <nav class="sidebar__nav" aria-label="Documentation navigation">
+
+      {{/* Documentation Section - shows only live (non-EoS) major versions */}}
+      {{ if not $activeIsEos }}
+      <div class="sidebar__section" id="sidebarSectionDocs">
+        <button class="sidebar__section-title" type="button"
+                aria-expanded="true" aria-controls="sidebarMenuDocs">
+          <span>Documentation</span>
+          <svg class="sidebar__section-caret" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <ul class="sidebar__menu" id="sidebarMenuDocs" role="list">
+          {{- if and $activeMajorPage (not $activeIsEos) -}}
+            {{- range $activeMajorPage.Sections.ByWeight -}}
+              {{- $patch := . -}}
+              {{- $isPatchOpen := false -}}
+
+              {{- if $currentPatchPage -}}
+                {{- if eq $patch.RelPermalink $currentPatchPage.RelPermalink -}}
+                  {{- $isPatchOpen = true -}}
+                {{- end -}}
+              {{- end -}}
+              {{- if not $isPatchOpen -}}
+                {{- range $currentPage.Ancestors -}}
+                  {{- if eq .RelPermalink $patch.RelPermalink -}}
+                    {{- $isPatchOpen = true -}}
+                  {{- end -}}
+                {{- end -}}
+              {{- end -}}
+
+              <li class="sidebar__group">
+                <button class="sidebar__group-btn sidebar__group-btn--patch{{- if $isPatchOpen }} is-open{{- end -}}"
+                        type="button"
+                        aria-expanded="{{- $isPatchOpen -}}"
+                        aria-controls="patch-{{ $patch.Title | urlize }}">
+                  <svg class="sidebar__group-caret" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M5 3.5l4 3.5-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  {{ $patch.Title }}
+                </button>
+
+                <ul class="sidebar__submenu{{- if $isPatchOpen }} is-open{{- end -}}"
+                    id="patch-{{ $patch.Title | urlize }}"
+                    role="list">
+
+                  {{/* Release Notes = the section _index.md page itself */}}
+                  <li>
+                    <a href="{{ $patch.Permalink }}"
+                       class="sidebar__link sidebar__link--leaf sidebar__link--nested{{- if eq $currentPage.RelPermalink $patch.RelPermalink }} is-active{{- end -}}">
+                      <svg class="sidebar__leaf-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <rect x="2" y="1.5" width="8" height="10" rx="1" stroke="currentColor" stroke-width="1.3"/>
+                        <path d="M4 5h4M4 7h4M4 9h2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                      </svg>
+                      Release Notes
+                    </a>
+                  </li>
+
+                  {{/* Regular pages: Installation, User Guide */}}
+                  {{- range $patch.RegularPages -}}
+                    <li>
+                      <a href="{{ .Permalink }}"
+                         class="sidebar__link sidebar__link--leaf sidebar__link--nested{{- if eq $currentPage.RelPermalink .RelPermalink }} is-active{{- end -}}">
+                        {{- if eq .Title "Installation" -}}
+                        <svg class="sidebar__leaf-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                          <path d="M7 2v7m0 0L4.5 6.5M7 9l2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M2 11.5h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                        </svg>
+                        {{- else -}}
+                        <svg class="sidebar__leaf-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                          <path d="M2 3.5h10M2 6.5h8M2 9.5h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                        </svg>
+                        {{- end -}}
+                        {{ .Title }}
+                      </a>
+                    </li>
+                  {{- end -}}
+                </ul>
+              </li>
+            {{- end -}}
+          {{- end -}}
+        </ul>
+      </div>
+      {{ end }}
+
+      {{/* Archived (EoS) Section - collapsed by default unless active page is EoS */}}
+      {{- if and $eosVersions $activeIsEos -}}
+      <div class="sidebar__section" id="sidebarSectionArchived">
+        <button class="sidebar__section-title" type="button"
+                aria-expanded="true" aria-controls="sidebarMenuArchived">
+          <span>Archived (EoS)</span>
+          <svg class="sidebar__section-caret" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <ul class="sidebar__menu" id="sidebarMenuArchived" role="list">
+          <li class="sidebar__eos-notice">
+            이 버전은 더 이상 공식 지원되지 않습니다. 최신 버전으로 업그레이드를 권장합니다.
+          </li>
+          {{- range $eosVersions -}}
+            {{- $major := . -}}
+            {{- $isMajorOpen := false -}}
+            {{- if $currentMajorPage -}}
+              {{- if eq $major.RelPermalink $currentMajorPage.RelPermalink -}}
+                {{- $isMajorOpen = true -}}
+              {{- end -}}
+            {{- end -}}
+
+            <li class="sidebar__group">
+              <button class="sidebar__group-btn{{- if $isMajorOpen }} is-open{{- end -}}"
+                      type="button"
+                      aria-expanded="{{- $isMajorOpen -}}"
+                      aria-controls="major-eos-{{ $major.Title | urlize }}">
+                <svg class="sidebar__group-caret" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M5 3.5l4 3.5-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                {{ $major.Title }}
+              </button>
+
+              <ul class="sidebar__submenu sidebar__submenu--major{{- if $isMajorOpen }} is-open{{- end -}}"
+                  id="major-eos-{{ $major.Title | urlize }}"
+                  role="list">
+                {{- range $major.Sections.ByWeight -}}
+                  {{- $patch := . -}}
+                  {{- $isPatchOpen := false -}}
+
+                  {{- if $currentPatchPage -}}
+                    {{- if eq $patch.RelPermalink $currentPatchPage.RelPermalink -}}
+                      {{- $isPatchOpen = true -}}
+                    {{- end -}}
+                  {{- end -}}
+                  {{- if not $isPatchOpen -}}
+                    {{- range $currentPage.Ancestors -}}
+                      {{- if eq .RelPermalink $patch.RelPermalink -}}
+                        {{- $isPatchOpen = true -}}
+                      {{- end -}}
+                    {{- end -}}
+                  {{- end -}}
+
+                  <li class="sidebar__group">
+                    <button class="sidebar__group-btn sidebar__group-btn--patch{{- if $isPatchOpen }} is-open{{- end -}}"
+                            type="button"
+                            aria-expanded="{{- $isPatchOpen -}}"
+                            aria-controls="patch-{{ $patch.Title | urlize }}">
+                      <svg class="sidebar__group-caret" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path d="M5 3.5l4 3.5-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      {{ $patch.Title }}
+                    </button>
+
+                    <ul class="sidebar__submenu{{- if $isPatchOpen }} is-open{{- end -}}"
+                        id="patch-{{ $patch.Title | urlize }}"
+                        role="list">
+                      <li>
+                        <a href="{{ $patch.Permalink }}"
+                           class="sidebar__link sidebar__link--leaf sidebar__link--nested{{- if eq $currentPage.RelPermalink $patch.RelPermalink }} is-active{{- end -}}">
+                          <svg class="sidebar__leaf-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                            <rect x="2" y="1.5" width="8" height="10" rx="1" stroke="currentColor" stroke-width="1.3"/>
+                            <path d="M4 5h4M4 7h4M4 9h2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                          </svg>
+                          Release Notes
+                        </a>
+                      </li>
+                      {{- range $patch.RegularPages -}}
+                        <li>
+                          <a href="{{ .Permalink }}"
+                             class="sidebar__link sidebar__link--leaf sidebar__link--nested{{- if eq $currentPage.RelPermalink .RelPermalink }} is-active{{- end -}}">
+                            {{- if eq .Title "Installation" -}}
+                            <svg class="sidebar__leaf-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                              <path d="M7 2v7m0 0L4.5 6.5M7 9l2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M2 11.5h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                            </svg>
+                            {{- else -}}
+                            <svg class="sidebar__leaf-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                              <path d="M2 3.5h10M2 6.5h8M2 9.5h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                            </svg>
+                            {{- end -}}
+                            {{ .Title }}
+                          </a>
+                        </li>
+                      {{- end -}}
+                    </ul>
+                  </li>
+                {{- end -}}
+              </ul>
+            </li>
+          {{- end -}}
+        </ul>
+      </div>
+      {{- end -}}
+
+      {{/* Downloads Section */}}
+      <div class="sidebar__section" id="sidebarSectionDownloads">
+        <button class="sidebar__section-title" type="button"
+                aria-expanded="true" aria-controls="sidebarMenuDownloads">
+          <span>Downloads</span>
+          <svg class="sidebar__section-caret" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <ul class="sidebar__menu" id="sidebarMenuDownloads" role="list">
+          {{- $dlRoot := $.Site.GetPage "/download" -}}
+          {{- if and $dlRoot $activeMajorPage -}}
+            {{- $dlMajor := $dlRoot.GetPage $activeMajorPage.Title -}}
+            {{- if $dlMajor -}}
+              {{- range $dlMajor.Sections.ByWeight -}}
+                  {{- $dlPatch := . -}}
+                  <li class="sidebar__group">
+                    <button class="sidebar__group-btn sidebar__group-btn--patch"
+                            type="button"
+                            aria-expanded="false"
+                            aria-controls="dl-{{ $dlPatch.Title | urlize }}">
+                      <svg class="sidebar__group-caret" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path d="M5 3.5l4 3.5-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      {{ $dlPatch.Title }}
+                    </button>
+                    <div class="sidebar__submenu sidebar__dl-content"
+                         id="dl-{{ $dlPatch.Title | urlize }}">
+                      {{ $dlPatch.Content }}
+                    </div>
+                  </li>
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+        </ul>
+      </div>
+
+    </nav>
+
+    {{/* ── Bottom Actions ── */}}
+    <div class="sidebar__bottom">
+      <a href="#demo" class="sidebar__bottom-btn sidebar__demo-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <rect x="1.5" y="2.5" width="13" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M6 13.5h4M8 11.5v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M5 6.5l2.5 2L5 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9.5 10h2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+        Demo Console
+      </a>
+      <button class="sidebar__bottom-btn sidebar__login-btn" id="sidebarLoginBtn" type="button">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="8" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        로그인
+      </button>
+    </div>
+
+    </div><!-- /.sidebar__panel--nav -->
+
+    <div class="sidebar__panel sidebar__panel--toc" id="sidebarTocPanel">
+      <div class="sidebar__toc-header">
+        <button class="sidebar__toc-back" id="sidebarTocBack" type="button">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M9 2.5L4 7l5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>메뉴로 돌아가기</span>
+        </button>
+      </div>
+      <nav class="sidebar__toc-content" id="sidebarTocContent" aria-label="Table of Contents">
+        <!-- JS가 TOC를 여기에 주입 -->
+      </nav>
+    </div><!-- /.sidebar__panel--toc -->
+
+  </div>
+</aside>
