@@ -13,7 +13,7 @@
   </div>
   {{ end }}
 
-  {{ $pages := .Pages }}
+  {{ $pages := .Pages.ByWeight.Reverse }}
   {{ if $pages }}
   <div class="card-grid">
     {{ range $pages }}
