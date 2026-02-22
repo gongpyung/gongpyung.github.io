@@ -1,52 +1,43 @@
-# lenalaborg.github.io
+# LENA Documentation Site
 
-## 신규 버전 작업 가이드
+Static documentation site for LENA, built with **Hugo** and deployed via **GitHub Pages**.
 
-### 화면 / 메뉴 트리용 md 파일 생성
-- html경로 : /content/ko/docs/{version}
-방법 : 신규 버전 디렉토리 생성 후 _index.md, installation.md, userguid.md 파일 생성
-- pdf경로 : /content/ko/download/{version}
-방법 : 신규 버전 디렉토리 생성 후 _index.md 파일 생성
+## Stack
 
-### 화면용 html 파일 추가 / 변환 작업
-#### html 파일 추가
-경로 : /static/ko/_includes/{version}  
-방법 : 신규 버전 디렉토리 생성 후 000.installation_vmhost.html, manual_exclusive.html, release_note.html 파일을
-jenkins 에서 받아 /static/ko/_includes/{version} 디렉토리에 추가
+- Hugo (extended)
+- Custom theme: `themes/lena-docs`
+- Deployment target: GitHub Pages
 
-- jenkins 파일 경로 \
-src/main/resources/static/ko/installation/vmhost/enterprise/000.installation_vmhost.html  
-src/main/resources/static/ko/manual/manual_exclusive.html  
-src/main/resources/static/ko/release-note/release_note.html
+## Local Development
 
-#### HTML 파일 내 이미지 경로 수정
-../resources/static -> /resources/{version}/static
+```bash
+hugo server
+```
 
-#### HTML 에서 참조할 이미지 추가
-경로 : /resources/{version}/static
-복사 : lena-docs 프로젝트 경로의  /src/main/resources/static 하위 image 파일들을 /resources/{version}/static 경로에 추가 
+Open: `http://localhost:1313`
 
-### 다운로드용 PDF 파일 추가
-경로 : /resources/{version}/pdf
-방법 : 신규 버전 디렉토리 생성 후 pdf 디렉토리에 jenkins 에 생성된 pdf 파일 추가
+## Build
 
-- LENA_Brochure.pdf 파일은 이전버전 디렉토리에서 복제
-- jenkins lena-doc job 의 artifact 로 생성된 pdf 를 복제
-대상목록
-> - LENA_Installation_Container_v1.3.pdf
-> - LENA_Installation_Enterprise_v1.3.pdf
-> - LENA_Installation_Standard_v1.3.pdf
-> - LENA_Installation_VM_v1.3.pdf
-> - LENA_Manual_Container_v1.3.pdf
-> - LENA_Manual_Enterprise_v1.3.pdf
-> - LENA_Manual_Standard_v1.3.pdf
-> - LENA_Manual_VM_v1.3.pdf
+```bash
+hugo
+```
 
-### 설치파일에 최신 pdf파일 업로드
-경로 : lena-server/lena-manager/src/main/webapp/resources/docs
-방법 : jenkins 에 생성된 pdf 파일을 lena 프로젝트에 업로드해준다. (1.3.4.0 이후 버전부터 적용대상)
-대상목록
-> - LENA_Installation_Container_v1.3.pdf
-> - LENA_Installation_VM_v1.3.pdf
-> - LENA_Manual_Container_v1.3.pdf
-> - LENA_Manual_VM_v1.3.pdf
+Generated output is in `public/`.
+
+## Repository Structure
+
+- `content/` — docs and pages
+- `themes/lena-docs/` — theme layouts, styles, scripts
+- `static/` — static assets copied as-is
+- `layouts/` — project-level layout overrides
+
+## Deployment (GitHub Pages)
+
+1. Commit and push to the configured branch
+2. GitHub Pages publishes the site
+3. (Optional) Custom domain via `CNAME`
+
+## Notes
+
+- Keep theme-level changes inside `themes/lena-docs/`
+- Prefer small, focused commits for UI tweaks
