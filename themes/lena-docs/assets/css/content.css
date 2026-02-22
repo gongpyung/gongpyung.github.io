@@ -406,6 +406,105 @@
   margin-bottom: var(--space-2);
 }
 
+/* AsciiDoc Section Normalization */
+.doc-include .sect1,
+.doc-include .sect2,
+.doc-include .sect3,
+.doc-include .sect4 {
+  margin: 0;
+  padding: 0;
+}
+
+.doc-include .sectionbody {
+  margin: 0;
+  padding: 0;
+}
+
+/* AsciiDoc Admonition Blocks */
+.doc-include .admonitionblock {
+  margin: var(--space-4) 0;
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--color-primary);
+  background-color: var(--color-primary-light);
+  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+}
+
+.doc-include .admonitionblock td.icon {
+  font-weight: 600;
+  padding-right: var(--space-3);
+  vertical-align: top;
+  color: var(--color-primary);
+}
+
+.doc-include .admonitionblock td.content {
+  padding: 0;
+  color: var(--text-primary);
+}
+
+/* AsciiDoc Code/Listing Blocks */
+.doc-include .listingblock pre,
+.doc-include .literalblock pre {
+  background-color: var(--bg-code);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: var(--space-4);
+  overflow-x: auto;
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+}
+
+/* AsciiDoc Image Blocks */
+.doc-include .imageblock {
+  margin: var(--space-4) 0;
+  text-align: center;
+}
+
+.doc-include .imageblock img {
+  display: inline-block;
+}
+
+/* AsciiDoc Table Normalization */
+.doc-include table.tableblock {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+  margin: 0 0 var(--space-6);
+}
+
+.doc-include table.tableblock th,
+.doc-include table.tableblock td {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.doc-include table.tableblock th {
+  background-color: var(--bg-hover);
+  font-weight: 600;
+}
+
+/* AsciiDoc List Normalization */
+.doc-include .ulist ul,
+.doc-include .olist ol {
+  padding-left: var(--space-6);
+  margin: 0 0 var(--space-4);
+}
+
+.doc-include .ulist li,
+.doc-include .olist li {
+  margin-bottom: var(--space-2);
+}
+
+/* Prevent overflow on mobile */
+.doc-include pre,
+.doc-include table,
+.doc-include .tableblock {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 /* Home Page */
 .home-page {
   animation: fadeIn var(--transition-slow);

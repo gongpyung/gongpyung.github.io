@@ -8,7 +8,7 @@
       {{ if not .IsHome }}
       <li class="breadcrumb__item">
         <svg class="breadcrumb__separator" width="12" height="12" viewBox="0 0 12 12"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-        <a href="{{ .Permalink }}" class="breadcrumb__link">{{ .Title }}</a>
+        <a href="{{ .RelPermalink }}" class="breadcrumb__link">{{ .Title }}</a>
       </li>
       {{ end }}
     {{ end }}

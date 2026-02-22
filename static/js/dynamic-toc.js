@@ -3,14 +3,19 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     var tocAside = document.getElementById('rightToc');
-    if (!tocAside) return;
+    var sidebarTocNav = document.getElementById('sidebarTocContent');
 
-    var tocNav = tocAside.querySelector('.toc__content nav');
-    if (!tocNav) return;
+    var tocNav = tocAside ? tocAside.querySelector('.toc__content nav') : null;
 
-    // If Hugo already generated TOC with items, just set up interactions
-    if (tocNav.querySelector('li')) {
-      setupInteractions(tocNav, tocAside);
+    // If Hugo already generated TOC with items in right TOC
+    if (tocNav && tocNav.querySelector('li')) {
+      if (sidebarTocNav) {
+        var existingUl = tocNav.querySelector('ul');
+        if (existingUl) {
+          sidebarTocNav.appendChild(existingUl.cloneNode(true));
+        }
+      }
+      setupInteractions(tocNav, tocAside, sidebarTocNav);
       return;
     }
 
@@ -19,25 +24,29 @@
     if (docToc) {
       var tocList = docToc.querySelector('ul');
       if (tocList) {
-        var cloned = tocList.cloneNode(true);
-        tocNav.appendChild(cloned);
-        setupInteractions(tocNav, tocAside);
+        if (tocNav) {
+          tocNav.appendChild(tocList.cloneNode(true));
+        }
+        if (sidebarTocNav) {
+          sidebarTocNav.appendChild(tocList.cloneNode(true));
+        }
+        setupInteractions(tocNav, tocAside, sidebarTocNav);
         return;
       }
     }
 
-    // Strategy 2: Build TOC from h2/h3 headings in content
+    // Strategy 2: Build TOC from h2/h3/h4 headings in content
     var content = document.querySelector('.doc-include') ||
                   document.querySelector('.doc-content__body') ||
                   document.querySelector('.layout__main');
     if (!content) {
-      tocAside.style.display = 'none';
+      if (tocAside) tocAside.style.display = 'none';
       return;
     }
 
-    var headings = Array.from(content.querySelectorAll('h2, h3'));
+    var headings = Array.from(content.querySelectorAll('h2, h3, h4'));
     if (headings.length === 0) {
-      tocAside.style.display = 'none';
+      if (tocAside) tocAside.style.display = 'none';
       return;
     }
 
@@ -53,10 +62,12 @@
       }
     });
 
-    // Build ul tree
+    // Build ul tree: h2 > h3 > h4
     var rootUl = document.createElement('ul');
     var currentH2Li = null;
     var currentH3Ul = null;
+    var currentH3Li = null;
+    var currentH4Ul = null;
 
     headings.forEach(function (h) {
       var li = document.createElement('li');
@@ -68,38 +79,68 @@
       if (h.tagName === 'H2') {
         currentH2Li = li;
         currentH3Ul = null;
+        currentH3Li = null;
+        currentH4Ul = null;
         rootUl.appendChild(li);
-      } else {
+      } else if (h.tagName === 'H3') {
         if (!currentH3Ul) {
           currentH3Ul = document.createElement('ul');
           (currentH2Li || rootUl).appendChild(currentH3Ul);
         }
+        currentH3Li = li;
+        currentH4Ul = null;
         currentH3Ul.appendChild(li);
+      } else { // H4
+        if (!currentH4Ul) {
+          currentH4Ul = document.createElement('ul');
+          (currentH3Li || currentH2Li || rootUl).appendChild(currentH4Ul);
+        }
+        currentH4Ul.appendChild(li);
       }
     });
 
-    tocNav.appendChild(rootUl);
-    setupInteractions(tocNav, tocAside);
+    if (tocNav) {
+      tocNav.appendChild(rootUl);
+    }
+    if (sidebarTocNav) {
+      sidebarTocNav.appendChild(rootUl.cloneNode(true));
+    }
+
+    setupInteractions(tocNav, tocAside, sidebarTocNav);
   });
 
-  function setupInteractions(tocNav, tocAside) {
-    // Final check: if still no items, hide
-    if (!tocNav.querySelector('li')) {
-      tocAside.style.display = 'none';
+  function setupInteractions(tocNav, tocAside, sidebarTocNav) {
+    var hasItems = (tocNav && tocNav.querySelector('li')) ||
+                   (sidebarTocNav && sidebarTocNav.querySelector('li'));
+
+    if (!hasItems) {
+      if (tocAside) tocAside.style.display = 'none';
       return;
     }
 
-    var links = tocNav.querySelectorAll('a[href^="#"]');
-    var headingEls = [];
+    // Collect all links from both navs
+    var allLinks = [];
+    if (tocNav) {
+      tocNav.querySelectorAll('a[href^="#"]').forEach(function (l) { allLinks.push(l); });
+    }
+    if (sidebarTocNav) {
+      sidebarTocNav.querySelectorAll('a[href^="#"]').forEach(function (l) { allLinks.push(l); });
+    }
 
-    links.forEach(function (link) {
+    // Build heading list (deduplicated by id)
+    var headingEls = [];
+    var seenIds = {};
+    allLinks.forEach(function (link) {
       var id = link.getAttribute('href').slice(1);
       var el = document.getElementById(id);
-      if (el) headingEls.push({ el: el, link: link });
+      if (el && !seenIds[id]) {
+        seenIds[id] = true;
+        headingEls.push({ el: el, id: id });
+      }
     });
 
     // Smooth scroll
-    links.forEach(function (link) {
+    allLinks.forEach(function (link) {
       link.addEventListener('click', function (e) {
         e.preventDefault();
         var target = document.getElementById(link.getAttribute('href').slice(1));
@@ -122,21 +163,19 @@
     function updateActive() {
       var scrollY = window.pageYOffset;
       var offset = getOffset();
-      var active = null;
+      var activeId = null;
 
       for (var i = headingEls.length - 1; i >= 0; i--) {
         var headingTop = headingEls[i].el.getBoundingClientRect().top + scrollY;
         if (scrollY >= headingTop - offset) {
-          active = headingEls[i];
+          activeId = headingEls[i].id;
           break;
         }
       }
 
-      links.forEach(function (link) {
-        link.classList.toggle(
-          'is-active',
-          active !== null && link === active.link
-        );
+      allLinks.forEach(function (link) {
+        var linkId = link.getAttribute('href').slice(1);
+        link.classList.toggle('is-active', activeId !== null && linkId === activeId);
       });
     }
 

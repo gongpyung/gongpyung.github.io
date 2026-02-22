@@ -2,7 +2,7 @@
 <nav class="page-nav">
   <div class="page-nav__inner">
     {{ with .PrevInSection }}
-    <a href="{{ .Permalink }}" class="page-nav__link page-nav__link--prev">
+    <a href="{{ .RelPermalink }}" class="page-nav__link page-nav__link--prev">
       <span class="page-nav__label">Previous</span>
       <span class="page-nav__title">{{ .Title }}</span>
     </a>
@@ -10,7 +10,7 @@
     <div></div>
     {{ end }}
     {{ with .NextInSection }}
-    <a href="{{ .Permalink }}" class="page-nav__link page-nav__link--next">
+    <a href="{{ .RelPermalink }}" class="page-nav__link page-nav__link--next">
       <span class="page-nav__label">Next</span>
       <span class="page-nav__title">{{ .Title }}</span>
     </a>

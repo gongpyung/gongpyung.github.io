@@ -169,6 +169,33 @@
       }
     }
 
+    // ── Sidebar TOC panel switching ──
+    var sidebarNavPanel = document.getElementById('sidebarNavPanel');
+    var sidebarTocPanel = document.getElementById('sidebarTocPanel');
+    var sidebarTocBack = document.getElementById('sidebarTocBack');
+    var sidebarTocContent = document.getElementById('sidebarTocContent');
+
+    function showTocPanel() {
+      if (sidebarNavPanel) sidebarNavPanel.style.display = 'none';
+      if (sidebarTocPanel) sidebarTocPanel.style.display = 'block';
+    }
+
+    function showNavPanel() {
+      if (sidebarTocPanel) sidebarTocPanel.style.display = 'none';
+      if (sidebarNavPanel) sidebarNavPanel.style.display = '';
+    }
+
+    if (sidebarTocBack) {
+      sidebarTocBack.addEventListener('click', showNavPanel);
+    }
+
+    // Auto-show TOC panel if dynamic-toc.js populated it (runs on same DOMContentLoaded)
+    setTimeout(function () {
+      if (sidebarTocContent && sidebarTocContent.children.length > 0) {
+        showTocPanel();
+      }
+    }, 100);
+
   }
 
   if (document.readyState === 'loading') {
