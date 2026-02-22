@@ -1,0 +1,16 @@
+{{ $title := .Get "title" }}
+{{ $href := .Get "href" }}
+{{ $icon := .Get "icon" }}
+{{ $tag := "div" }}
+{{ if $href }}{{ $tag = "a" }}{{ end }}
+<{{ $tag }}{{ if $href }} href="{{ $href }}"{{ end }} class="card">
+  {{ with $icon }}
+  <div class="card__icon">
+    <span class="card__icon-text">{{ . }}</span>
+  </div>
+  {{ end }}
+  {{ with $title }}<div class="card__title">{{ . }}</div>{{ end }}
+  {{ with .Inner }}
+  <p class="card__description">{{ . | markdownify }}</p>
+  {{ end }}
+</{{ $tag }}>

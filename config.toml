@@ -1,10 +1,9 @@
 baseURL = "https://gongpyung.github.io/"
 title = "LENA"
-theme = "hugo-geekdoc"
+theme = "lena-docs"
 
 pluralizeListTitles = false
 
-# Geekdoc required configuration
 pygmentsUseClasses = true
 pygmentsCodeFences = true
 disablePathToLower = true
@@ -36,4 +35,4 @@ defaultContentLanguageInSubdir = false
     endLevel = 9
 
 [params]
-  geekdocLogo = "logo_lena_w_s.png"
+  geekdocLogo = "logo.png"

@@ -1,0 +1,11 @@
+{{ $name := .Get 0 }}
+{{ $parentId := printf "tabs-%d" .Parent.Ordinal }}
+{{ $panelId := printf "%s-panel-%d" $parentId .Ordinal }}
+<div
+  class="tabs__panel{{ if eq .Ordinal 0 }} is-active{{ end }}"
+  id="{{ $panelId }}"
+  data-label="{{ $name }}"
+  role="tabpanel"
+>
+  {{ .Inner | markdownify }}
+</div>

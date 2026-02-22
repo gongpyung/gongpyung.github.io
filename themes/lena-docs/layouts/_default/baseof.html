@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}" {{ if not (eq .Site.Language.Lang "en") }}dir="ltr"{{ end }}>
+<head>
+  {{- partial "head.html" . -}}
+</head>
+<body>
+  <div class="layout">
+    {{- partial "header.html" . -}}
+    <div class="layout__body">
+      {{- partial "sidebar.html" . -}}
+      <div class="layout__content">
+        <div class="layout__main">
+          {{- partial "breadcrumb.html" . -}}
+          {{- block "main" . }}{{ end -}}
+          {{- partial "page-nav.html" . -}}
+        </div>
+        {{- partial "toc.html" . -}}
+      </div>
+    </div>
+  </div>
+  {{- partial "search-modal.html" . -}}
+  {{- partial "login-modal.html" . -}}
+
+  {{ $sidebar := resources.Get "js/sidebar.js" | minify }}
+  <script src="{{ $sidebar.RelPermalink }}"></script>
+  {{ $themeToggle := resources.Get "js/theme-toggle.js" | minify }}
+  <script src="{{ $themeToggle.RelPermalink }}"></script>
+  {{ $langSelector := resources.Get "js/language-selector.js" | minify }}
+  <script src="{{ $langSelector.RelPermalink }}"></script>
+  {{ $codeCopy := resources.Get "js/code-copy.js" | minify }}
+  <script src="{{ $codeCopy.RelPermalink }}"></script>
+</body>
+</html>

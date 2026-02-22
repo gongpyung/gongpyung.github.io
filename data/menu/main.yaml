@@ -1,3 +1,5 @@
+# LEGACY: 현재 미사용. lena-docs 테마는 sidebar.html에서 Hugo Sections API를 직접 사용함.
+# 삭제 검토 시 themes/lena-docs/layouts/partials/sidebar.html 참조.
 ---
 main:
   - name: Documentation

@@ -1,0 +1,130 @@
+{{ define "main" }}
+<div class="home-page">
+  <!-- Hero Section -->
+  <section class="home-hero">
+    <div class="home-hero__inner">
+      <div class="home-hero__badge">Documentation</div>
+      <h1 class="home-hero__title">LENA Docs</h1>
+      <p class="home-hero__subtitle">
+        {{ if eq .Site.Language.Lang "ko" }}
+          LG CNS LENA Web Application Server / Web Server 공식 문서입니다.
+          설치 가이드, 사용자 가이드, API Reference를 제공합니다.
+        {{ else }}
+          Official documentation for LG CNS LENA Web Application Server / Web Server.
+          Includes installation guides, user guides, and API reference.
+        {{ end }}
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content Body (if any) -->
+  {{ if .Content }}
+  <div class="home-content">
+    {{ .Content }}
+  </div>
+  {{ end }}
+
+  <!-- Card Grid -->
+  <section class="home-cards">
+    <div class="card-grid">
+      <!-- Documentation -->
+      <a href="{{ relLangURL "docs/" }}" class="card card--featured">
+        <div class="card__icon-wrapper card__icon-wrapper--docs">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 12h6M9 16h6M17 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V7l-4-4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M13 3v4h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="card__title">
+          {{ if eq .Site.Language.Lang "ko" }}문서{{ else }}Documentation{{ end }}
+        </div>
+        <p class="card__description">
+          {{ if eq .Site.Language.Lang "ko" }}
+            설치 가이드, 사용자 가이드 및 버전별 릴리즈 노트를 확인하세요.
+          {{ else }}
+            Installation guides, user guides, and version-specific release notes.
+          {{ end }}
+        </p>
+        <span class="card__arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+
+      <!-- API Reference -->
+      <a href="{{ relLangURL "api-reference/" }}" class="card card--featured">
+        <div class="card__icon-wrapper card__icon-wrapper--api">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M8 9l3 3-3 3M13 15h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="2" y="3" width="20" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="card__title">API Reference</div>
+        <p class="card__description">
+          {{ if eq .Site.Language.Lang "ko" }}
+            REST API 엔드포인트, 요청/응답 형식 및 예제 코드를 확인하세요.
+          {{ else }}
+            REST API endpoints, request/response formats, and example code.
+          {{ end }}
+        </p>
+        <span class="card__arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+
+      <!-- Release Notes -->
+      <a href="{{ relLangURL "release-notes/" }}" class="card card--featured">
+        <div class="card__icon-wrapper card__icon-wrapper--release">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="card__title">
+          {{ if eq .Site.Language.Lang "ko" }}릴리즈 노트{{ else }}Release Notes{{ end }}
+        </div>
+        <p class="card__description">
+          {{ if eq .Site.Language.Lang "ko" }}
+            버전별 변경사항, 새 기능 및 버그 수정 내역을 확인하세요.
+          {{ else }}
+            Version-by-version changelog, new features, and bug fixes.
+          {{ end }}
+        </p>
+        <span class="card__arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+
+      <!-- Download -->
+      <a href="{{ relLangURL "download/" }}" class="card card--featured">
+        <div class="card__icon-wrapper card__icon-wrapper--download">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3v13M8 12l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3 21h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="card__title">
+          {{ if eq .Site.Language.Lang "ko" }}다운로드{{ else }}Download{{ end }}
+        </div>
+        <p class="card__description">
+          {{ if eq .Site.Language.Lang "ko" }}
+            설치 파일, PDF 매뉴얼 및 관련 자료를 다운로드하세요.
+          {{ else }}
+            Download installation files, PDF manuals, and related materials.
+          {{ end }}
+        </p>
+        <span class="card__arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </section>
+</div>
+{{ end }}

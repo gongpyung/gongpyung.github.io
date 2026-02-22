@@ -1,0 +1,40 @@
+{{ define "main" }}
+<article class="doc-content">
+  <header class="doc-content__header">
+    <h1 class="doc-content__title">{{ .Title }}</h1>
+    {{ with .Params.description }}
+    <p class="doc-content__description">{{ . }}</p>
+    {{ end }}
+  </header>
+
+  {{ if .Content }}
+  <div class="doc-content__body">
+    {{ .Content }}
+  </div>
+  {{ end }}
+
+  {{ $pages := .Pages }}
+  {{ if $pages }}
+  <div class="card-grid">
+    {{ range $pages }}
+    <a href="{{ .Permalink }}" class="card">
+      {{ with .Params.icon }}
+      <div class="card__icon">
+        <span class="card__icon-text">{{ . }}</span>
+      </div>
+      {{ end }}
+      <div class="card__title">{{ .Title }}</div>
+      {{ if not .Date.IsZero }}
+      <span class="card__date">{{ .Date.Format "2006.01.02" }}</span>
+      {{ end }}
+      {{ if .Params.description }}
+      <p class="card__description">{{ .Params.description }}</p>
+      {{ else if .Summary }}
+      <p class="card__description">{{ .Summary | truncate 100 }}</p>
+      {{ end }}
+    </a>
+    {{ end }}
+  </div>
+  {{ end }}
+</article>
+{{ end }}

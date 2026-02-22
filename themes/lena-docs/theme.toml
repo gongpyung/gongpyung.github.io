@@ -1,0 +1,8 @@
+name = "LENA Docs"
+license = "MIT"
+licenselink = "https://github.com/gongpyung/lena-docs/blob/master/LICENSE"
+description = "A modern documentation theme for LENA, inspired by Claude Docs"
+min_version = "0.83.0"
+
+[author]
+  name = "LENA Team"

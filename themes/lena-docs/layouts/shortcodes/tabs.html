@@ -1,0 +1,39 @@
+{{ $id := printf "tabs-%d" .Ordinal }}
+<div class="tabs" id="{{ $id }}">
+  {{ .Inner }}
+</div>
+<script>
+(function() {
+  var tabs = document.getElementById('{{ $id }}');
+  if (!tabs) return;
+  var panels = tabs.querySelectorAll('.tabs__panel');
+  if (!panels.length) return;
+  var nav = document.createElement('div');
+  nav.className = 'tabs__nav';
+  nav.setAttribute('role', 'tablist');
+  panels.forEach(function(panel, i) {
+    var btn = document.createElement('button');
+    btn.className = 'tabs__btn' + (i === 0 ? ' is-active' : '');
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('data-target', panel.id);
+    btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    btn.textContent = panel.getAttribute('data-label') || ('Tab ' + (i + 1));
+    nav.appendChild(btn);
+  });
+  tabs.insertBefore(nav, tabs.firstChild);
+  nav.addEventListener('click', function(e) {
+    var btn = e.target.closest('.tabs__btn');
+    if (!btn) return;
+    nav.querySelectorAll('.tabs__btn').forEach(function(b) {
+      b.classList.remove('is-active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    btn.classList.add('is-active');
+    btn.setAttribute('aria-selected', 'true');
+    var targetId = btn.getAttribute('data-target');
+    panels.forEach(function(p) { p.classList.remove('is-active'); });
+    var target = document.getElementById(targetId);
+    if (target) target.classList.add('is-active');
+  });
+})();
+</script>

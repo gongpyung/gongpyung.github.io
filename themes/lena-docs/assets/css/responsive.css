@@ -1,0 +1,92 @@
+/* ============================================
+   Responsive Styles
+   ============================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .layout__toc {
+    display: none;
+  }
+
+  .layout__main {
+    padding: var(--space-6) var(--space-6);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 280px;
+  }
+
+  .layout__sidebar {
+    transform: translateX(-100%);
+    box-shadow: none;
+  }
+
+  .layout__sidebar.is-open {
+    transform: translateX(0);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .layout__content {
+    margin-left: 0;
+  }
+
+  .layout__main {
+    padding: var(--space-4);
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  .header__menu-toggle {
+    display: flex;
+  }
+
+  .header__search-hint {
+    display: none;
+  }
+
+  .page-nav__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-modal__container {
+    width: 95%;
+    margin-top: var(--space-4);
+  }
+
+  .login-modal__container {
+    width: 95%;
+  }
+}
+
+/* sidebar-overlay rules are in sidebar.css */
+
+/* Print styles */
+@media print {
+  .header,
+  .layout__sidebar,
+  .layout__toc,
+  .page-nav,
+  .breadcrumb,
+  .search-modal,
+  .login-modal {
+    display: none !important;
+  }
+
+  .layout__content {
+    margin-left: 0;
+  }
+
+  .layout__main {
+    max-width: 100%;
+    padding: 0;
+  }
+}

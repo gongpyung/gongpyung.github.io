@@ -1,0 +1,170 @@
+/* ============================================
+   LENA Docs - Design Tokens
+   Color palette based on LG Brand #A50034
+   ============================================ */
+
+:root,
+:root[data-theme="light"] {
+  /* Primary Colors - LG Red */
+  --color-primary: #A50034;
+  --color-primary-hover: #C41045;
+  --color-primary-light: #FDF2F4;
+  --color-primary-dark: #8B002C;
+
+  /* Secondary & Accent */
+  --color-secondary: #2D2D2D;
+  --color-accent: #0066B3;
+  --color-accent-hover: #0052A3;
+
+  /* Backgrounds */
+  --bg-header: #FFFFFF;
+  --bg-sidebar: #F9FAFB;
+  --bg-content: #FFFFFF;
+  --bg-code: #F4F4F5;
+  --bg-hover: #F3F4F6;
+  --bg-callout-info: #EFF6FF;
+  --bg-callout-warning: #FFFBEB;
+  --bg-callout-tip: #F0FDF4;
+  --bg-callout-danger: #FEF2F2;
+
+  /* Text */
+  --text-primary: #1A1A1A;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+  --text-inverse: #FFFFFF;
+  --text-link: #0066B3;
+  --text-link-hover: #0052A3;
+
+  /* Borders */
+  --border-color: #E5E7EB;
+  --border-color-strong: #D1D5DB;
+  --border-radius: 8px;
+  --border-radius-sm: 4px;
+  --border-radius-lg: 12px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  /* Layout */
+  --header-height: 64px;
+  --sidebar-width: 280px;
+  --toc-width: 220px;
+  --content-max-width: 1100px;
+
+  /* Typography */
+  --font-sans: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --line-height-tight: 1.25;
+  --line-height-base: 1.6;
+  --line-height-relaxed: 1.75;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+
+  /* Z-index */
+  --z-sidebar: 40;
+  --z-header: 50;
+  --z-modal: 100;
+  --z-overlay: 90;
+}
+
+/* ============================================
+   Dark Mode
+   ============================================ */
+:root[data-theme="dark"] {
+  --color-primary: #FF4D6D;
+  --color-primary-hover: #FF6B85;
+  --color-primary-light: #2A0011;
+  --color-primary-dark: #FF3355;
+
+  --color-secondary: #E8E8E8;
+  --color-accent: #60A5FA;
+  --color-accent-hover: #93C5FD;
+
+  --bg-header: #18181B;
+  --bg-sidebar: #1B1B1F;
+  --bg-content: #0F0F11;
+  --bg-code: #27272A;
+  --bg-hover: #27272A;
+  --bg-callout-info: #172554;
+  --bg-callout-warning: #422006;
+  --bg-callout-tip: #052E16;
+  --bg-callout-danger: #450A0A;
+
+  --text-primary: #E8E8E8;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+  --text-inverse: #0F0F11;
+  --text-link: #60A5FA;
+  --text-link-hover: #93C5FD;
+
+  --border-color: #2D2D33;
+  --border-color-strong: #3F3F46;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   System preference (when no data-theme set)
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-primary: #FF4D6D;
+    --color-primary-hover: #FF6B85;
+    --color-primary-light: #2A0011;
+    --color-primary-dark: #FF3355;
+
+    --color-secondary: #E8E8E8;
+    --color-accent: #60A5FA;
+    --color-accent-hover: #93C5FD;
+
+    --bg-header: #18181B;
+    --bg-sidebar: #1B1B1F;
+    --bg-content: #0F0F11;
+    --bg-code: #27272A;
+    --bg-hover: #27272A;
+    --bg-callout-info: #172554;
+    --bg-callout-warning: #422006;
+    --bg-callout-tip: #052E16;
+    --bg-callout-danger: #450A0A;
+
+    --text-primary: #E8E8E8;
+    --text-secondary: #9CA3AF;
+    --text-muted: #6B7280;
+    --text-inverse: #0F0F11;
+    --text-link: #60A5FA;
+    --text-link-hover: #93C5FD;
+
+    --border-color: #2D2D33;
+    --border-color-strong: #3F3F46;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  }
+}

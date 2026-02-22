@@ -4,265 +4,283 @@
     --code-max-height: 60rem;
 }
 
-/* Light mode theming */
+/* ============================================
+   Header Color Tokens (Claude-inspired warm tones)
+   ============================================ */
 :root,
-:root[color-mode="light"] {
-    --header-background: #eaeaea;
-    --header-font-color: #ffffff;
-
-    --body-background: #ffffff;
-    --body-font-color: #343a40;
-
-    --button-background: #62cb97;
-    --button-border-color: #4ec58a;
-
-    --link-color: #518169;
-    --link-color-visited: #b7c27a;
-
-    --code-background: #f5f6f8;
-    --code-accent-color: #e3e7eb;
-    --code-accent-color-lite: #eff1f3;
-
-    --accent-color: #e9ecef;
-    --accent-color-lite: #f8f9fa;
-
-    --control-icons: #b2bac1;
-
-    --footer-background: #2f333e;
-    --footer-font-color: #ffffff;
-    --footer-link-color: #ffcc5c;
-    --footer-link-color-visited: #ffcc5c;
-}
-@media (prefers-color-scheme: light) {
-    :root {
-        --header-background: #eaeaea;
-        --header-font-color: #ffffff;
-
-        --body-background: #ffffff;
-        --body-font-color: #343a40;
-
-        --button-background: #62cb97;
-        --button-border-color: #4ec58a;
-
-        --link-color: #518169;
-        --link-color-visited: #b7c27a;
-
-        --code-background: #f5f6f8;
-        --code-accent-color: #e3e7eb;
-        --code-accent-color-lite: #eff1f3;
-
-        --accent-color: #e9ecef;
-        --accent-color-lite: #f8f9fa;
-
-        --control-icons: #b2bac1;
-
-        --footer-background: #2f333e;
-        --footer-font-color: #ffffff;
-        --footer-link-color: #ffcc5c;
-        --footer-link-color-visited: #ffcc5c;
-    }
+:root[data-theme="light"] {
+  --header-bg: #FAFAF8;
+  --header-nav-hover-bg: rgba(0, 0, 0, 0.05);
+  --header-nav-active-bg: rgba(165, 0, 52, 0.08);
+  --header-text: #1A1A1A;
+  --header-text-secondary: #6B7280;
 }
 
-/* Dark mode theming */
-:root[color-mode="dark"] {
-    --header-background: #eaeaea;
-    --header-font-color: #ffffff;
-
-    --body-background: #343a40;
-    --body-font-color: #ced3d8;
-
-    --button-background: #62cb97;
-    --button-border-color: #4ec58a;
-
-    --link-color: #7ac29e;
-    --link-color-visited: #b7c27a;
-
-    --code-background: #2f353a;
-    --code-accent-color: #262b2f;
-    --code-accent-color-lite: #2b3035;
-
-    --accent-color: #2b3035;
-    --accent-color-lite: #2f353a;
-
-    --control-icons: #b2bac1;
-
-    --footer-background: #2f333e;
-    --footer-font-color: #ffffff;
-    --footer-link-color: #ffcc5c;
-    --footer-link-color-visited: #ffcc5c;
+:root[data-theme="dark"] {
+  --header-bg: #1A1A1E;
+  --header-nav-hover-bg: rgba(255, 255, 255, 0.07);
+  --header-nav-active-bg: rgba(255, 77, 109, 0.12);
+  --header-text: #E8E8E8;
+  --header-text-secondary: #9CA3AF;
 }
+
 @media (prefers-color-scheme: dark) {
-    :root {
-        --header-background: #eaeaea;
-        --header-font-color: #ffffff;
-
-        --body-background: #343a40;
-        --body-font-color: #ced3d8;
-
-        --button-background: #62cb97;
-        --button-border-color: #4ec58a;
-
-        --link-color: #7ac29e;
-        --link-color-visited: #b7c27a;
-
-        --code-background: #2f353a;
-        --code-accent-color: #262b2f;
-        --code-accent-color-lite: #2b3035;
-
-        --accent-color: #2b3035;
-        --accent-color-lite: #2f353a;
-
-        --control-icons: #b2bac1;
-
-        --footer-background: #2f333e;
-        --footer-font-color: #ffffff;
-        --footer-link-color: #ffcc5c;
-        --footer-link-color-visited: #ffcc5c;
-    }
+  :root:not([data-theme]) {
+    --header-bg: #1A1A1E;
+    --header-nav-hover-bg: rgba(255, 255, 255, 0.07);
+    --header-nav-active-bg: rgba(255, 77, 109, 0.12);
+    --header-text: #E8E8E8;
+    --header-text-secondary: #9CA3AF;
+  }
 }
 
-/* Language Switcher Styles */
-.language-switcher-container {
-    position: relative;
-    display: inline-flex;
+.header {
+  background-color: var(--header-bg);
+}
+
+/* ============================================
+   Header 3-Column Layout (Brand | Nav | Right)
+   ============================================ */
+.header__brand {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   Header Brand Typography Override
+   ============================================ */
+.header__logo-title {
+  font-size: clamp(28px, 2.2vw, 36px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* ============================================
+   Header Nav Hover Pill Styles
+   ============================================ */
+.header__nav-item {
+  padding: 6px 14px;
+  border-radius: 999px;
+  transition: color 180ms ease, background-color 180ms ease;
+}
+
+.header__nav-item:hover {
+  background-color: var(--header-nav-hover-bg);
+  color: var(--header-text);
+}
+
+.header__nav-item:active {
+  background-color: var(--header-nav-hover-bg);
+  opacity: 0.8;
+}
+
+.header__nav-item.is-active {
+  color: var(--color-primary);
+  background-color: var(--header-nav-active-bg);
+}
+
+.header__nav-item.is-active:hover {
+  background-color: var(--header-nav-active-bg);
+}
+
+.header__nav-item.is-active::after {
+  bottom: -14px;
+}
+
+
+.card__date {
+  font-size: 0.85rem;
+  color: var(--body-font-color);
+  opacity: 0.6;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* ============================================
+   Download Page: PDF Link Styling
+   ============================================ */
+
+/* Style PDF links as visual download item buttons */
+.doc-content__body li > a[href$=".pdf"],
+.doc-content__body li > a[href*="/pdf/"] {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    margin-right: 8px;
-    height: 100%;
-    min-height: 48px;
-    vertical-align: middle;
-    flex-shrink: 0;
-}
-
-.language-switcher {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(156, 163, 175, 0.6);
-    border-radius: 6px;
-    padding: 0;
-    font-size: 12px;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
     font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    letter-spacing: 0.2px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 120px;
-    height: 28px;
-    outline: none;
-    overflow: hidden;
-    color: #374151;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+    margin-bottom: var(--space-2);
 }
 
-.language-switcher:hover {
-    border-color: rgba(107, 114, 128, 0.8);
-    background-color: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-.language-switcher:active {
-    transform: scale(0.98);
-}
-
-.language-slider {
-    position: absolute;
-    top: 2px;
-    width: 56px;
-    height: 24px;
-    background: #ffffff;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    transition: all 0.2s ease;
-    z-index: 1;
-    border: 1px solid rgba(156, 163, 175, 0.3);
-}
-
-.language-slider.ko {
-    left: 2px;
-}
-
-.language-slider.en {
-    left: 62px;
-}
-
-.lang-option {
-    position: relative;
-    z-index: 2;
-    padding: 4px 8px;
-    border-radius: 4px;
-    transition: all 0.2s ease;
-    width: 56px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-shadow: none;
-    transform: none;
-}
-
-.lang-option.active {
-    color: #1f2937;
+.doc-content__body li > a[href$=".pdf"]::before,
+.doc-content__body li > a[href*="/pdf/"]::before {
+    content: "↓";
+    font-size: 1.1em;
+    line-height: 1;
+    color: var(--color-primary);
+    flex-shrink: 0;
     font-weight: 700;
 }
 
-.lang-option.inactive {
-    color: #6b7280;
-    font-weight: 500;
+.doc-content__body li > a[href$=".pdf"]:hover,
+.doc-content__body li > a[href*="/pdf/"]:hover {
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
 }
 
-/* Ripple animation */
-@keyframes ripple {
-    to {
-        transform: scale(2);
-        opacity: 0;
+/* Remove bullet markers from PDF download link lists */
+.doc-content__body ul:has(> li > a[href$=".pdf"]),
+.doc-content__body ul:has(> li > a[href*="/pdf/"]) {
+    list-style: none;
+    padding-left: 0;
+}
+
+/* ============================================
+   Download Page: Version Card Grid
+   ============================================ */
+
+/* Clear visual separation for version card grid */
+.doc-content .card-grid {
+    margin-top: var(--space-6);
+}
+
+/* ============================================
+   Card Hover Effects - Enhanced Lift
+   ============================================ */
+
+/* Extend transition to include transform for lift effect */
+.card {
+    transform: translateY(0);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ============================================
+   Mobile Responsiveness Improvements (< 768px)
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Improve body text line-height for readability */
+    .doc-content__body {
+        line-height: var(--line-height-relaxed);
+    }
+
+    /* More generous content padding */
+    .layout__main {
+        padding: var(--space-5) var(--space-4);
+    }
+
+    /* Card grid: comfortable gaps on single-column mobile */
+    .card-grid {
+        gap: var(--space-4);
+    }
+
+    /* Better touch targets for sidebar links (44px min per WCAG) */
+    .sidebar__link {
+        min-height: 44px;
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem;
+    }
+
+    .sidebar__link--leaf {
+        min-height: 40px;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .sidebar__group-btn {
+        min-height: 44px;
+    }
+
+    .sidebar__section-title {
+        min-height: 44px;
+    }
+
+    /* Download PDF links: larger tap area on mobile */
+    .doc-content__body li > a[href$=".pdf"],
+    .doc-content__body li > a[href*="/pdf/"] {
+        padding: var(--space-4);
+        font-size: var(--font-size-base);
+        min-height: 52px;
+    }
+
+    /* Sidebar section spacing on mobile */
+    .sidebar__section {
+        margin-bottom: var(--space-3);
+    }
+
+    /* Better sidebar version selector touch target */
+    .sidebar__version-select {
+        min-height: 40px;
     }
 }
 
-.ripple {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
-    transform: scale(0);
-    animation: ripple 0.5s ease-out;
-    z-index: 0;
-    pointer-events: none;
+/* ============================================
+   Ask Docs Floating Button (Claude Docs style)
+   ============================================ */
+.ask-docs-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background-color: var(--color-primary, #2563eb);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+  line-height: 1;
 }
 
-/* Header alignment */
-.gdoc-menu-header {
-    display: flex !important;
-    align-items: center !important;
-    height: 48px !important;
-    min-height: 48px !important;
-    max-height: 48px !important;
-    box-sizing: border-box !important;
+.ask-docs-btn:hover {
+  background-color: var(--color-primary-hover, #1d4ed8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16), 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
 }
 
-.gdoc-menu-header .language-switcher-container {
-    margin: 0 8px 0 0 !important;
-    height: 100% !important;
-    min-height: 48px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    flex-shrink: 0 !important;
+.ask-docs-btn:active {
+  transform: translateY(0);
 }
 
-/* Force header height and alignment */
-.gdoc-menu-header {
-    height: 48px !important;
-    min-height: 48px !important;
-    max-height: 48px !important;
-    display: flex !important;
-    align-items: center !important;
-    box-sizing: border-box !important;
+.ask-docs-btn svg {
+  flex-shrink: 0;
 }
 
-.gdoc-menu-header * {
-    box-sizing: border-box !important;
+@media (max-width: 768px) {
+  .ask-docs-btn {
+    bottom: 16px;
+    right: 16px;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
 }
+
+/* ============================================
+   AsciiDoctor Include Overrides
+   ============================================ */
+.doc-include #toc { display: none !important; }
+.doc-include #toc.toc2 { position: static !important; left: auto !important; width: auto !important; }
+.doc-include #header { display: none !important; }
+.doc-include #content { margin: 0 !important; padding: 0 !important; }
+.doc-include body { padding: 0 !important; margin: 0 !important; }
