@@ -132,7 +132,7 @@
 
         <ul class="sidebar__menu" id="sidebarMenuDocs" role="list">
           {{- if and $activeMajorPage (not $activeIsEos) -}}
-            {{- range $activeMajorPage.Sections.ByWeight.Reverse -}}
+            {{- range $activeMajorPage.Sections.ByTitle.Reverse -}}
               {{- $patch := . -}}
               {{- $isPatchOpen := false -}}
 
@@ -241,7 +241,7 @@
               <ul class="sidebar__submenu sidebar__submenu--major{{- if $isMajorOpen }} is-open{{- end -}}"
                   id="major-eos-{{ $major.Title | urlize }}"
                   role="list">
-                {{- range $major.Sections.ByWeight.Reverse -}}
+                {{- range $major.Sections.ByTitle.Reverse -}}
                   {{- $patch := . -}}
                   {{- $isPatchOpen := false -}}
 
@@ -325,7 +325,7 @@
           {{- if and $dlRoot $activeMajorPage -}}
             {{- $dlMajor := $dlRoot.GetPage $activeMajorPage.Title -}}
             {{- if $dlMajor -}}
-              {{- range $dlMajor.Sections.ByWeight.Reverse -}}
+              {{- range $dlMajor.Sections.ByTitle.Reverse -}}
                   {{- $dlPatch := . -}}
                   <li class="sidebar__group">
                     <button class="sidebar__group-btn sidebar__group-btn--patch"
