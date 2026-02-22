@@ -406,6 +406,21 @@
   margin-bottom: var(--space-2);
 }
 
+/* Force readable text colors for legacy include content */
+.doc-include,
+.doc-include p,
+.doc-include li,
+.doc-include td,
+.doc-include th,
+.doc-include span,
+.doc-include div {
+  color: var(--text-primary) !important;
+}
+
+.doc-include a {
+  color: var(--text-link) !important;
+}
+
 /* AsciiDoc Section Normalization */
 .doc-include .sect1,
 .doc-include .sect2,

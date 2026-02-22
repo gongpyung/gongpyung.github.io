@@ -5,6 +5,11 @@
     if (!containers.length) return;
 
     containers.forEach(function(container) {
+      // 0. Remove embedded legacy styles/scripts so theme styles can take over
+      container.querySelectorAll('style, script, link[rel="stylesheet"]').forEach(function(el) {
+        el.remove();
+      });
+
       // 1. Hide legacy wrappers (CSS backup)
       ['#header', '#toc', '#toctitle'].forEach(function(sel) {
         var el = container.querySelector(sel);
