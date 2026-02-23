@@ -4,6 +4,12 @@ on:
   workflow_run:
     workflows: ["pages build and deployment"]
     types: [completed]
+  workflow_dispatch:
+    inputs:
+      test_message:
+        description: "Send test message"
+        required: false
+        default: "manual test"
 
 jobs:
   notify:
@@ -13,22 +19,27 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          EVENT_NAME: ${{ github.event_name }}
           CONCLUSION: ${{ github.event.workflow_run.conclusion }}
           RUN_URL: ${{ github.event.workflow_run.html_url }}
           BRANCH: ${{ github.event.workflow_run.head_branch }}
           COMMIT: ${{ github.event.workflow_run.head_sha }}
+          TEST_MESSAGE: ${{ github.event.inputs.test_message }}
         run: |
           if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ]; then
             echo "TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID secret missing."
             exit 1
           fi
 
-          SHORT_SHA=$(echo "$COMMIT" | cut -c1-7)
-
-          if [ "$CONCLUSION" = "success" ]; then
-            MSG="✅ GitHub Pages 배포 완료\n브랜치: $BRANCH\n커밋: $SHORT_SHA\n상세: $RUN_URL"
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            MSG="🧪 Telegram 알림 테스트 성공\n메시지: ${TEST_MESSAGE:-manual test}"
           else
-            MSG="❌ GitHub Pages 배포 실패 ($CONCLUSION)\n브랜치: $BRANCH\n커밋: $SHORT_SHA\n상세: $RUN_URL"
+            SHORT_SHA=$(echo "$COMMIT" | cut -c1-7)
+            if [ "$CONCLUSION" = "success" ]; then
+              MSG="✅ GitHub Pages 배포 완료\n브랜치: $BRANCH\n커밋: $SHORT_SHA\n상세: $RUN_URL"
+            else
+              MSG="❌ GitHub Pages 배포 실패 ($CONCLUSION)\n브랜치: $BRANCH\n커밋: $SHORT_SHA\n상세: $RUN_URL"
+            fi
           fi
 
           curl -sS -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
