@@ -55,6 +55,17 @@
           }
         }
       });
+
+      // 4. Remove trailing revision footer on Release Notes pages:
+      // "Version X.Y.Z" + "Last updated ..."
+      if (/\/docs\/\d+\.\d+\.\d+\/\d+\.\d+\.\d+\.\d+\/?$/.test(location.pathname)) {
+        container.querySelectorAll('p').forEach(function(p) {
+          var text = (p.textContent || '').replace(/\s+/g, ' ').trim();
+          if (/^Version\s+\d+\.\d+\.\d+(?:\.\d+)?\s+Last updated\s+/i.test(text)) {
+            p.remove();
+          }
+        });
+      }
     });
   });
 })();

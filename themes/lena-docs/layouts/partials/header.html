@@ -10,8 +10,9 @@
         {{ end }}
         <span class="header__logo-title">LENA Docs</span>
       </a>
+      {{- $docsUrl := ("docs/1.3.4/" | relLangURL) -}}
       <nav class="header__nav" aria-label="Main navigation">
-        <a href="{{ "docs/" | relLangURL }}" class="header__nav-item{{ if eq .Section "docs" }} is-active{{ end }}">Docs</a>
+        <a href="{{ $docsUrl }}" class="header__nav-item{{ if eq .Section "docs" }} is-active{{ end }}">Docs</a>
         <a href="{{ "api-reference/" | relLangURL }}" class="header__nav-item{{ if eq .Section "api-reference" }} is-active{{ end }}">API Reference</a>
         <a href="{{ "release-notes/" | relLangURL }}" class="header__nav-item{{ if eq .Section "release-notes" }} is-active{{ end }}">Release Notes</a>
       </nav>
