@@ -3,49 +3,49 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     var tocAside = document.getElementById('rightToc');
-    var sidebarTocNav = document.getElementById('sidebarTocContent');
 
     var tocNav = tocAside ? tocAside.querySelector('.toc__content nav') : null;
 
-    // If Hugo already generated TOC with items in right TOC
+    // If Hugo already rendered TOC items (e.g., Home markdown headings), keep them.
     if (tocNav && tocNav.querySelector('li')) {
-      if (sidebarTocNav) {
-        var existingUl = tocNav.querySelector('ul');
-        if (existingUl) {
-          sidebarTocNav.appendChild(existingUl.cloneNode(true));
-        }
-      }
-      setupInteractions(tocNav, tocAside, sidebarTocNav);
+      setupInteractions(tocNav, tocAside);
       return;
     }
 
-    // Strategy 1: Clone TOC from .doc-include #toc (AsciiDoc include pages)
+    // Strategy 1 (preferred): Clone TOC from .doc-include #toc for Installation/User Guide include pages
     var docToc = document.querySelector('.doc-include #toc');
     if (docToc) {
       var tocList = docToc.querySelector('ul');
       if (tocList) {
         if (tocNav) {
+          tocNav.innerHTML = '';
           tocNav.appendChild(tocList.cloneNode(true));
         }
-        if (sidebarTocNav) {
-          sidebarTocNav.appendChild(tocList.cloneNode(true));
-        }
-        setupInteractions(tocNav, tocAside, sidebarTocNav);
+        setupInteractions(tocNav, tocAside);
         return;
       }
     }
 
-    // Strategy 2: Build TOC from h2/h3/h4 headings in content
-    var content = document.querySelector('.doc-include') ||
-                  document.querySelector('.doc-content__body') ||
-                  document.querySelector('.layout__main');
-    if (!content) {
-      if (tocAside) tocAside.style.display = 'none';
-      return;
+    // Strategy 2: Build TOC from h2/h3/h4 headings (prefer page body, then include)
+    var headingRoots = [
+      document.querySelector('.doc-content__body'),
+      document.querySelector('.doc-include'),
+      document.querySelector('.layout__main')
+    ].filter(Boolean);
+
+    var content = null;
+    var headings = [];
+    for (var i = 0; i < headingRoots.length; i++) {
+      var candidate = headingRoots[i];
+      var found = Array.from(candidate.querySelectorAll('h2, h3, h4'));
+      if (found.length) {
+        content = candidate;
+        headings = found;
+        break;
+      }
     }
 
-    var headings = Array.from(content.querySelectorAll('h2, h3, h4'));
-    if (headings.length === 0) {
+    if (!content || headings.length === 0) {
       if (tocAside) tocAside.style.display = 'none';
       return;
     }
@@ -100,31 +100,25 @@
     });
 
     if (tocNav) {
+      tocNav.innerHTML = '';
       tocNav.appendChild(rootUl);
     }
-    if (sidebarTocNav) {
-      sidebarTocNav.appendChild(rootUl.cloneNode(true));
-    }
 
-    setupInteractions(tocNav, tocAside, sidebarTocNav);
+    setupInteractions(tocNav, tocAside);
   });
 
-  function setupInteractions(tocNav, tocAside, sidebarTocNav) {
-    var hasItems = (tocNav && tocNav.querySelector('li')) ||
-                   (sidebarTocNav && sidebarTocNav.querySelector('li'));
+  function setupInteractions(tocNav, tocAside) {
+    var hasItems = tocNav && tocNav.querySelector('li');
 
     if (!hasItems) {
       if (tocAside) tocAside.style.display = 'none';
       return;
     }
 
-    // Collect all links from both navs
+    // Collect all links from right TOC
     var allLinks = [];
     if (tocNav) {
       tocNav.querySelectorAll('a[href^="#"]').forEach(function (l) { allLinks.push(l); });
-    }
-    if (sidebarTocNav) {
-      sidebarTocNav.querySelectorAll('a[href^="#"]').forEach(function (l) { allLinks.push(l); });
     }
 
     // Build heading list (deduplicated by id)
