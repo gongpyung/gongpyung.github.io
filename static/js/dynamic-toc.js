@@ -3,19 +3,12 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     var tocAside = document.getElementById('rightToc');
-    var sidebarTocNav = document.getElementById('sidebarTocContent');
 
     var tocNav = tocAside ? tocAside.querySelector('.toc__content nav') : null;
 
     // If Hugo already generated TOC with items in right TOC
     if (tocNav && tocNav.querySelector('li')) {
-      if (sidebarTocNav) {
-        var existingUl = tocNav.querySelector('ul');
-        if (existingUl) {
-          sidebarTocNav.appendChild(existingUl.cloneNode(true));
-        }
-      }
-      setupInteractions(tocNav, tocAside, sidebarTocNav);
+      setupInteractions(tocNav, tocAside);
       return;
     }
 
@@ -27,10 +20,7 @@
         if (tocNav) {
           tocNav.appendChild(tocList.cloneNode(true));
         }
-        if (sidebarTocNav) {
-          sidebarTocNav.appendChild(tocList.cloneNode(true));
-        }
-        setupInteractions(tocNav, tocAside, sidebarTocNav);
+        setupInteractions(tocNav, tocAside);
         return;
       }
     }
@@ -102,29 +92,22 @@
     if (tocNav) {
       tocNav.appendChild(rootUl);
     }
-    if (sidebarTocNav) {
-      sidebarTocNav.appendChild(rootUl.cloneNode(true));
-    }
 
-    setupInteractions(tocNav, tocAside, sidebarTocNav);
+    setupInteractions(tocNav, tocAside);
   });
 
-  function setupInteractions(tocNav, tocAside, sidebarTocNav) {
-    var hasItems = (tocNav && tocNav.querySelector('li')) ||
-                   (sidebarTocNav && sidebarTocNav.querySelector('li'));
+  function setupInteractions(tocNav, tocAside) {
+    var hasItems = tocNav && tocNav.querySelector('li');
 
     if (!hasItems) {
       if (tocAside) tocAside.style.display = 'none';
       return;
     }
 
-    // Collect all links from both navs
+    // Collect all links from right TOC
     var allLinks = [];
     if (tocNav) {
       tocNav.querySelectorAll('a[href^="#"]').forEach(function (l) { allLinks.push(l); });
-    }
-    if (sidebarTocNav) {
-      sidebarTocNav.querySelectorAll('a[href^="#"]').forEach(function (l) { allLinks.push(l); });
     }
 
     // Build heading list (deduplicated by id)

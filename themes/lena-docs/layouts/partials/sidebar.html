@@ -2,6 +2,7 @@
 {{- $docsRoot := .Site.GetPage "/docs" -}}
 {{- $currentMajorPage := false -}}
 {{- $currentPatchPage := false -}}
+{{- $dlRoot := .Site.GetPage "/download" -}}
 
 {{/* Walk ancestors to detect current major version section */}}
 {{- if $docsRoot -}}
@@ -43,6 +44,52 @@
   {{- end -}}
 {{- end -}}
 
+{{/* If on a /download/ page, map to corresponding docs major/patch version */}}
+{{- if and (not $currentMajorPage) $docsRoot $dlRoot -}}
+  {{- $dlMajorPage := false -}}
+  {{- range $currentPage.Ancestors -}}
+    {{- $anc := . -}}
+    {{- with .Parent -}}
+      {{- if eq .RelPermalink $dlRoot.RelPermalink -}}
+        {{- $dlMajorPage = $anc -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if not $dlMajorPage -}}
+    {{- with $currentPage.Parent -}}
+      {{- if eq .RelPermalink $dlRoot.RelPermalink -}}
+        {{- $dlMajorPage = $currentPage -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $dlMajorPage -}}
+    {{- with $docsRoot.GetPage $dlMajorPage.Title -}}
+      {{- $currentMajorPage = . -}}
+    {{- end -}}
+    {{- $dlPatchPage := false -}}
+    {{- range $currentPage.Ancestors -}}
+      {{- $anc := . -}}
+      {{- with .Parent -}}
+        {{- if eq .RelPermalink $dlMajorPage.RelPermalink -}}
+          {{- $dlPatchPage = $anc -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if not $dlPatchPage -}}
+      {{- with $currentPage.Parent -}}
+        {{- if eq .RelPermalink $dlMajorPage.RelPermalink -}}
+          {{- $dlPatchPage = $currentPage -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if and $dlPatchPage $currentMajorPage -}}
+      {{- with $currentMajorPage.GetPage $dlPatchPage.Title -}}
+        {{- $currentPatchPage = . -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
 {{/* Major versions sorted latest-first (reverse alphabetical works for 1.3.x) */}}
 {{- $majorVersions := slice -}}
 {{- if $docsRoot -}}
@@ -64,7 +111,6 @@
 {{- end -}}
 
 {{/* Split into live and EoS versions */}}
-{{- $dlRoot := .Site.GetPage "/download" -}}
 {{- $liveVersions := slice -}}
 {{- $eosVersions := slice -}}
 {{- range $majorVersions -}}
@@ -225,7 +271,7 @@
 
       {{/* Archived (EoS) Section - collapsed by default unless active page is EoS */}}
       {{- if $eosVersions -}}
-      <div class="sidebar__section{{- if not $activeIsEos }} is-collapsed{{- end -}}" id="sidebarSectionArchived">
+      <div class="sidebar__section{{- if not $activeIsEos }} is-hidden{{- end -}}" id="sidebarSectionArchived">
         <button class="sidebar__section-title" type="button"
                 aria-expanded="{{- if $activeIsEos }}true{{- else }}false{{- end -}}" aria-controls="sidebarMenuArchived">
           <span>Archived (EoS)</span>
@@ -374,20 +420,6 @@
     </div>
 
     </div><!-- /.sidebar__panel--nav -->
-
-    <div class="sidebar__panel sidebar__panel--toc" id="sidebarTocPanel">
-      <div class="sidebar__toc-header">
-        <button class="sidebar__toc-back" id="sidebarTocBack" type="button">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M9 2.5L4 7l5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span>메뉴로 돌아가기</span>
-        </button>
-      </div>
-      <nav class="sidebar__toc-content" id="sidebarTocContent" aria-label="Table of Contents">
-        <!-- JS가 TOC를 여기에 주입 -->
-      </nav>
-    </div><!-- /.sidebar__panel--toc -->
 
   </div>
 </aside>

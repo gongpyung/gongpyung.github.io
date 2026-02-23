@@ -225,11 +225,6 @@ hr {
   background-color: var(--text-muted);
 }
 
-/* Hide right TOC when sidebar TOC is active */
-body.has-sidebar-toc .layout__toc {
-  display: none !important;
-}
-
 /* Sidebar collapsed state */
 body.sidebar-collapsed .layout__sidebar {
   transform: translateX(-100%);

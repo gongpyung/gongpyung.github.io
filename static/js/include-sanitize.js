@@ -37,6 +37,24 @@
           a.style.textDecoration = 'none';
         }
       });
+
+      // 3. Remove empty sections in Release Notes (headings with no content)
+      var headings = container.querySelectorAll('h2, h3');
+      headings.forEach(function(heading) {
+        var next = heading.nextElementSibling;
+        // Empty section: heading followed by another heading or nothing
+        if (!next || /^H[1-6]$/.test(next.tagName)) {
+          heading.style.display = 'none';
+        }
+        // AsciiDoc: heading followed by sectionbody with no meaningful content
+        if (next && next.classList && next.classList.contains('sectionbody')) {
+          var hasContent = next.querySelector('ul, ol, p, table, pre, .listingblock');
+          if (!hasContent) {
+            heading.style.display = 'none';
+            next.style.display = 'none';
+          }
+        }
+      });
     });
   });
 })();

@@ -121,16 +121,20 @@
     var loginOverlay = document.getElementById('loginOverlay');
     var loginClose = document.getElementById('loginClose');
 
+    // ── Login modal: open from header ──
     if (loginToggle && loginModal) {
-      function closeLogin() {
-        loginModal.classList.remove('is-open');
-        body.style.overflow = '';
-      }
-
       loginToggle.addEventListener('click', function() {
         loginModal.classList.add('is-open');
         body.style.overflow = 'hidden';
       });
+    }
+
+    // ── Login modal: close handlers (always register if modal exists) ──
+    if (loginModal) {
+      function closeLogin() {
+        loginModal.classList.remove('is-open');
+        body.style.overflow = '';
+      }
 
       if (loginOverlay) loginOverlay.addEventListener('click', closeLogin);
       if (loginClose) loginClose.addEventListener('click', closeLogin);
@@ -168,33 +172,6 @@
         expandBtn.style.display = 'none';
       }
     }
-
-    // ── Sidebar TOC panel switching ──
-    var sidebarNavPanel = document.getElementById('sidebarNavPanel');
-    var sidebarTocPanel = document.getElementById('sidebarTocPanel');
-    var sidebarTocBack = document.getElementById('sidebarTocBack');
-    var sidebarTocContent = document.getElementById('sidebarTocContent');
-
-    function showTocPanel() {
-      if (sidebarNavPanel) sidebarNavPanel.style.display = 'none';
-      if (sidebarTocPanel) sidebarTocPanel.style.display = 'block';
-    }
-
-    function showNavPanel() {
-      if (sidebarTocPanel) sidebarTocPanel.style.display = 'none';
-      if (sidebarNavPanel) sidebarNavPanel.style.display = '';
-    }
-
-    if (sidebarTocBack) {
-      sidebarTocBack.addEventListener('click', showNavPanel);
-    }
-
-    // Auto-show TOC panel if dynamic-toc.js populated it (runs on same DOMContentLoaded)
-    setTimeout(function () {
-      if (sidebarTocContent && sidebarTocContent.children.length > 0) {
-        showTocPanel();
-      }
-    }, 100);
 
   }
 

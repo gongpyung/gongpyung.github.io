@@ -136,13 +136,14 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow: hidden;
-  max-height: 3000px;
-  transition: max-height 300ms ease;
 }
 
 .sidebar__section.is-collapsed .sidebar__menu {
-  max-height: 0;
+  display: none;
+}
+
+.sidebar__section.is-hidden {
+  display: none;
 }
 
 /* ── Patch version group ── */
@@ -193,13 +194,11 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height var(--transition-base);
+  display: none;
 }
 
 .sidebar__submenu.is-open {
-  max-height: 400px;
+  display: block;
 }
 
 /* ── Leaf links (inside submenu) ── */
@@ -323,13 +322,11 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height var(--transition-base);
+  display: none;
 }
 
 .sidebar__submenu--major.is-open {
-  max-height: 4000px;
+  display: block;
 }
 
 /* ── Patch group button (indented inside major) ── */
@@ -388,70 +385,6 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-}
-.sidebar__panel--toc {
-  padding: var(--space-4) 0 0;
-  display: none;
-}
-
-.sidebar__toc-header {
-  padding: 0 var(--space-4) var(--space-3);
-  border-bottom: 1px solid var(--border-color);
-  flex-shrink: 0;
-}
-.sidebar__toc-back {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: var(--font-size-sm);
-  font-family: var(--font-sans);
-  color: var(--text-secondary);
-  padding: var(--space-2) 0;
-  transition: color var(--transition-fast);
-}
-.sidebar__toc-back:hover {
-  color: var(--color-primary);
-}
-
-.sidebar__toc-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: var(--space-3) var(--space-2);
-  scrollbar-width: thin;
-  scrollbar-color: var(--border-color) transparent;
-}
-.sidebar__toc-content ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.sidebar__toc-content li {
-  margin-bottom: var(--space-1);
-}
-.sidebar__toc-content a {
-  display: block;
-  padding: var(--space-1) var(--space-3);
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-  text-decoration: none;
-  border-left: 2px solid transparent;
-  transition: color var(--transition-fast), border-color var(--transition-fast);
-  line-height: var(--line-height-relaxed);
-}
-.sidebar__toc-content a:hover {
-  color: var(--text-primary);
-  text-decoration: none;
-}
-.sidebar__toc-content a.is-active {
-  color: var(--color-primary);
-  border-left-color: var(--color-primary);
-  font-weight: 500;
-}
-.sidebar__toc-content ul ul {
-  padding-left: var(--space-3);
 }
 
 /* ── Collapse button ── */
