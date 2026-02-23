@@ -33,13 +33,13 @@ jobs:
           fi
 
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
-            MSG="🧪 Telegram 알림 테스트 성공\n메시지: ${TEST_MESSAGE:-manual test}"
+            MSG=$(printf '🧪 Telegram 알림 테스트 성공\n메시지: %s' "${TEST_MESSAGE:-manual test}")
           else
             SHORT_SHA=$(echo "$COMMIT" | cut -c1-7)
             if [ "$CONCLUSION" = "success" ]; then
-              MSG="✅ GitHub Pages 배포 완료\n브랜치: $BRANCH\n커밋: $SHORT_SHA\n상세: $RUN_URL"
+              MSG=$(printf '✅ GitHub Pages 배포 완료\n브랜치: %s\n커밋: %s\n상세: %s' "$BRANCH" "$SHORT_SHA" "$RUN_URL")
             else
-              MSG="❌ GitHub Pages 배포 실패 ($CONCLUSION)\n브랜치: $BRANCH\n커밋: $SHORT_SHA\n상세: $RUN_URL"
+              MSG=$(printf '❌ GitHub Pages 배포 실패 (%s)\n브랜치: %s\n커밋: %s\n상세: %s' "$CONCLUSION" "$BRANCH" "$SHORT_SHA" "$RUN_URL")
             fi
           fi
 
