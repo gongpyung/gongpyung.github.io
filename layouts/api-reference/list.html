@@ -1,0 +1,44 @@
+{{ define "main" }}
+<article class="doc-content api-section" id="top">
+  <header class="doc-content__header">
+    <h1 class="doc-content__title">{{ .Title }}</h1>
+    {{ with .Params.description }}
+    <p class="doc-content__description">{{ . }}</p>
+    {{ end }}
+  </header>
+
+  {{ if .Content }}
+  <div class="doc-content__body">
+    {{ .Content }}
+  </div>
+  {{ end }}
+
+  {{ $pages := sort .Pages "Weight" "asc" }}
+  {{ if $pages }}
+  <div class="api-endpoint-list">
+    {{ range $pages }}
+    <a href="{{ .Permalink }}" class="api-endpoint-list__item">
+      {{ with .Params.api_method }}
+      <span class="api-method api-method--{{ . | lower }}">{{ . }}</span>
+      {{ end }}
+      {{ with .Params.api_endpoint }}
+      <code class="api-endpoint-list__path">{{ . }}</code>
+      {{ end }}
+      <span class="api-endpoint-list__title">{{ .Title }}</span>
+      {{ if .Params.description }}
+      <span class="api-endpoint-list__desc">{{ .Params.description }}</span>
+      {{ else if .Summary }}
+      <span class="api-endpoint-list__desc">{{ .Summary | truncate 100 }}</span>
+      {{ end }}
+    </a>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  <a href="#top" class="scroll-top" aria-label="Scroll to top">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M8 12V4M8 4L4 8M8 4L12 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+</article>
+{{ end }}

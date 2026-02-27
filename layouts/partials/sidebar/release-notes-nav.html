@@ -1,0 +1,99 @@
+{{- $currentPage := . -}}
+{{- $rnRoot := .Site.GetPage "/release-notes" -}}
+
+{{ if $rnRoot }}
+<div class="sidebar__section" id="sidebarSectionReleaseNotes">
+  <button class="sidebar__section-title" type="button" aria-expanded="true" aria-controls="sidebarMenuReleaseNotes">
+    <span>Release Notes</span>
+    <svg class="sidebar__section-caret" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <ul class="sidebar__menu" id="sidebarMenuReleaseNotes" role="list">
+
+    {{- $majorVersions := sort $rnRoot.Sections "Title" "desc" -}}
+
+    {{- if $majorVersions -}}
+
+      {{/* Determine current major section */}}
+      {{- $currentMajor := false -}}
+      {{- range $currentPage.Ancestors -}}
+        {{- $anc := . -}}
+        {{- with .Parent -}}
+          {{- if eq .RelPermalink $rnRoot.RelPermalink -}}
+            {{- $currentMajor = $anc -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if not $currentMajor -}}
+        {{- with $currentPage.Parent -}}
+          {{- if eq .RelPermalink $rnRoot.RelPermalink -}}
+            {{- $currentMajor = $currentPage -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+
+      {{/* Latest major = first in desc-sorted list */}}
+      {{- $latestMajor := index $majorVersions 0 -}}
+
+      {{- range $majorVersions -}}
+        {{- $major := . -}}
+        {{- $isLatest := eq $major.RelPermalink $latestMajor.RelPermalink -}}
+
+        {{/* Open if: current page is in this major, or it's the latest major with no current selection */}}
+        {{- $isMajorOpen := false -}}
+        {{- if $currentMajor -}}
+          {{- if eq $major.RelPermalink $currentMajor.RelPermalink -}}
+            {{- $isMajorOpen = true -}}
+          {{- end -}}
+        {{- else if $isLatest -}}
+          {{- $isMajorOpen = true -}}
+        {{- end -}}
+
+        <li class="sidebar__group">
+          <button class="sidebar__group-btn{{- if $isMajorOpen }} is-open{{- end -}}"
+                  type="button"
+                  aria-expanded="{{- $isMajorOpen -}}"
+                  aria-controls="rn-major-{{ $major.Title | urlize }}">
+            <svg class="sidebar__group-caret" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M5 3.5l4 3.5-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            {{ $major.Title }}
+          </button>
+
+          <ul class="sidebar__submenu{{- if $isMajorOpen }} is-open{{- end -}}"
+              id="rn-major-{{ $major.Title | urlize }}"
+              role="list">
+
+            {{- range sort $major.Pages "Title" "desc" -}}
+              <li>
+                <a href="{{ .RelPermalink }}"
+                   class="sidebar__link sidebar__link--leaf sidebar__link--nested{{- if eq $currentPage.RelPermalink .RelPermalink }} is-active{{- end -}}">
+                  {{ .Title }}
+                  {{- with .Params.release_date -}}
+                    <span class="release-notes-date">{{ . }}</span>
+                  {{- end -}}
+                </a>
+              </li>
+            {{- end -}}
+
+          </ul>
+        </li>
+      {{- end -}}
+
+    {{- else -}}
+
+      {{/* No version subsections yet - show root page link */}}
+      <li>
+        <a href="{{ $rnRoot.RelPermalink }}"
+           class="sidebar__link sidebar__link--leaf{{- if eq $currentPage.RelPermalink $rnRoot.RelPermalink }} is-active{{- end -}}">
+          Release Notes
+        </a>
+      </li>
+
+    {{- end -}}
+
+  </ul>
+</div>
+{{ end }}

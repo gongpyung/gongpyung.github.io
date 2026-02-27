@@ -1,0 +1,89 @@
+{{- $currentPage := . -}}
+{{- $apiRoot := .Site.GetPage "/api-reference" -}}
+
+{{ if $apiRoot }}
+<div class="sidebar__section" id="sidebarSectionApi">
+  <button class="sidebar__section-title" type="button" aria-expanded="true" aria-controls="sidebarMenuApi">
+    <span>API Reference</span>
+    <svg class="sidebar__section-caret" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <ul class="sidebar__menu" id="sidebarMenuApi" role="list">
+
+    {{/* Top-level regular pages (leaf pages directly under /api-reference/) */}}
+    {{- range sort $apiRoot.RegularPages "Weight" -}}
+      <li>
+        <a href="{{ .RelPermalink }}"
+           class="sidebar__link sidebar__link--leaf{{- if eq $currentPage.RelPermalink .RelPermalink }} is-active{{- end -}}">
+          {{- with .Params.api_method -}}
+            <span class="sidebar__api-method sidebar__api-method--{{ lower . }}">{{ upper . }}</span>
+          {{- end -}}
+          {{ .Title }}
+        </a>
+      </li>
+    {{- end -}}
+
+    {{/* Category sections (subsections of /api-reference/) */}}
+    {{- range sort $apiRoot.Sections "Weight" -}}
+      {{- $category := . -}}
+      {{- $isCategoryOpen := false -}}
+
+      {{/* Check if current page is inside this category */}}
+      {{- if eq $currentPage.RelPermalink $category.RelPermalink -}}
+        {{- $isCategoryOpen = true -}}
+      {{- end -}}
+      {{- if not $isCategoryOpen -}}
+        {{- range $currentPage.Ancestors -}}
+          {{- if eq .RelPermalink $category.RelPermalink -}}
+            {{- $isCategoryOpen = true -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+
+      <li class="sidebar__group">
+        <button class="sidebar__group-btn{{- if $isCategoryOpen }} is-open{{- end -}}"
+                type="button"
+                aria-expanded="{{- $isCategoryOpen -}}"
+                aria-controls="api-cat-{{ $category.Title | urlize }}">
+          <svg class="sidebar__group-caret" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M5 3.5l4 3.5-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          {{ $category.Title }}
+        </button>
+
+        <ul class="sidebar__submenu{{- if $isCategoryOpen }} is-open{{- end -}}"
+            id="api-cat-{{ $category.Title | urlize }}"
+            role="list">
+
+          {{/* Category index page itself, if it has content */}}
+          {{- if $category.Content -}}
+          <li>
+            <a href="{{ $category.RelPermalink }}"
+               class="sidebar__link sidebar__link--leaf sidebar__link--nested{{- if eq $currentPage.RelPermalink $category.RelPermalink }} is-active{{- end -}}">
+              {{ $category.Title }}
+            </a>
+          </li>
+          {{- end -}}
+
+          {{/* Regular pages under this category */}}
+          {{- range sort $category.RegularPages "Weight" -}}
+            <li>
+              <a href="{{ .RelPermalink }}"
+                 class="sidebar__link sidebar__link--leaf sidebar__link--nested{{- if eq $currentPage.RelPermalink .RelPermalink }} is-active{{- end -}}">
+                {{- with .Params.api_method -}}
+                  <span class="sidebar__api-method sidebar__api-method--{{ lower . }}">{{ upper . }}</span>
+                {{- end -}}
+                {{ .Title }}
+              </a>
+            </li>
+          {{- end -}}
+
+        </ul>
+      </li>
+    {{- end -}}
+
+  </ul>
+</div>
+{{ end }}

@@ -4,3 +4,13 @@
 public/
 resources/_gen/
 .hugo_build.lock
+
+# Python
+__pycache__/
+
+# Node / test
+node_modules/
+test-results/
+
+# OMC
+.omc/

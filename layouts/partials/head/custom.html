@@ -1,4 +1,10 @@
 {{/* Custom head content */}}
 <link rel="stylesheet" href="{{ "custom.css" | relURL }}">
+{{ if eq .Section "api-reference" }}
+<link rel="stylesheet" href="{{ "css/api-reference.css" | relURL }}">
+{{ end }}
+{{ if eq .Section "release-notes" }}
+<link rel="stylesheet" href="{{ "css/release-notes.css" | relURL }}">
+{{ end }}
 <script src="{{ "js/dynamic-toc.js" | relURL }}"></script>
 <script src="{{ "js/include-sanitize.js" | relURL }}"></script>

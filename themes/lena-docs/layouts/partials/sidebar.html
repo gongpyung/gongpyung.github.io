@@ -95,7 +95,8 @@
 {{- if $docsRoot -}}
   {{- $majorVersions = sort $docsRoot.Sections "Title" "desc" -}}
 {{- end -}}
-{{- $isComingSection := or (eq .Section "api-reference") (eq .Section "release-notes") -}}
+{{- $isComingSection := eq .Section "release-notes" -}}
+{{- $isApiSection := eq .Section "api-reference" -}}
 
 {{/* Latest version = first in sorted list */}}
 {{- $latestVersion := "" -}}
@@ -142,7 +143,7 @@
     </button>
 
     {{/* ── Version Selector ── */}}
-    {{ if and (not .IsHome) (not $isComingSection) }}
+    {{ if and (not .IsHome) (not $isComingSection) (not $isApiSection) }}
     <div class="sidebar__version">
       <label class="sidebar__version-label" for="versionSelect">Release Line</label>
       <div class="sidebar__version-wrapper">
@@ -183,19 +184,12 @@
       </div>
       {{ end }}
 
-      {{ if and (not .IsHome) $isComingSection }}
-      <div class="sidebar__section" id="sidebarSectionComingSoon">
-        <button class="sidebar__section-title" type="button" aria-expanded="true" aria-controls="sidebarMenuComingSoon">
-          <span>{{ if eq .Section "api-reference" }}API Reference{{ else if eq .Section "release-notes" }}Release Notes{{ else }}Coming Soon{{ end }}</span>
-          <svg class="sidebar__section-caret" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
+      {{ if and (not .IsHome) (not $isApiSection) $isComingSection }}
+        {{ partial "sidebar/release-notes-nav.html" . }}
       {{ end }}
 
       {{/* Documentation Section - shows only live (non-EoS) major versions */}}
-      {{ if and (not .IsHome) (not $isComingSection) (not $activeIsEos) }}
+      {{ if and (not .IsHome) (not $isComingSection) (not $isApiSection) (not $activeIsEos) }}
       <div class="sidebar__section" id="sidebarSectionDocs">
         <button class="sidebar__section-title" type="button"
                 aria-expanded="true" aria-controls="sidebarMenuDocs">
@@ -297,8 +291,12 @@
       </div>
       {{ end }}
 
+      {{ if and (not .IsHome) $isApiSection }}
+        {{ partial "sidebar/api-nav.html" . }}
+      {{ end }}
+
       {{/* Archived (EoS) Section - collapsed by default unless active page is EoS */}}
-      {{- if and (not .IsHome) (not $isComingSection) $eosVersions -}}
+      {{- if and (not .IsHome) (not $isComingSection) (not $isApiSection) $eosVersions -}}
       <div class="sidebar__section{{- if not $activeIsEos }} is-hidden{{- end -}}" id="sidebarSectionArchived">
         <button class="sidebar__section-title" type="button"
                 aria-expanded="{{- if $activeIsEos }}true{{- else }}false{{- end -}}" aria-controls="sidebarMenuArchived">

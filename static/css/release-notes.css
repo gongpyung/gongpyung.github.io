@@ -1,0 +1,456 @@
+/* ============================================
+   LENA Release Notes - Custom Styles
+   Timeline-based version history layout
+   ============================================ */
+
+/* ============================================
+   Timeline Container
+   ============================================ */
+.release-notes-timeline {
+  position: relative;
+  padding-left: var(--space-8);
+}
+
+.release-notes-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: var(--space-3);
+  bottom: var(--space-3);
+  width: 2px;
+  background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+/* ============================================
+   Version Card
+   ============================================ */
+.release-notes-card {
+  position: relative;
+  background-color: var(--bg-content);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--border-radius);
+  padding: var(--space-6);
+  margin-bottom: var(--space-8);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.release-notes-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+}
+
+.release-notes-card:last-child {
+  margin-bottom: 0;
+}
+
+/* Timeline dot for each card */
+.release-notes-card::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--space-8) - 5px);
+  top: calc(var(--space-6) + 0.6em);
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-primary);
+  border: 2px solid var(--bg-content);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+/* ============================================
+   Card Header: Badge + Date
+   ============================================ */
+.release-notes-card__header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* ============================================
+   Version Badge
+   ============================================ */
+.release-notes-version-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25em 0.75em;
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border-radius: 9999px;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.release-notes-version-badge:hover {
+  background-color: var(--color-primary-hover);
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+/* ============================================
+   Date Display
+   ============================================ */
+.release-notes-date {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  white-space: nowrap;
+}
+
+/* ============================================
+   Card Component List (summary tags like "Web Server, WAS")
+   ============================================ */
+.release-notes-card__components {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.release-notes-card__component-tag {
+  display: inline-block;
+  padding: 0.15em 0.6em;
+  background-color: var(--bg-code);
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+/* ============================================
+   Card Body Content (Asciidoctor .doc-include)
+   ============================================ */
+.release-notes-card__body {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  color: var(--text-primary);
+}
+
+/* Component section headings inside cards */
+.release-notes-card__body h3,
+.release-notes-card__body .doc-include h3 {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: var(--space-5) 0 var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.release-notes-card__body h3:first-child,
+.release-notes-card__body .doc-include h3:first-child {
+  margin-top: 0;
+}
+
+.release-notes-card__body h4,
+.release-notes-card__body .doc-include h4 {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: var(--space-4) 0 var(--space-2);
+}
+
+/* Lists inside cards */
+.release-notes-card__body ul,
+.release-notes-card__body .doc-include ul,
+.release-notes-card__body ol,
+.release-notes-card__body .doc-include ol {
+  padding-left: var(--space-5);
+  margin: 0 0 var(--space-3);
+}
+
+.release-notes-card__body li,
+.release-notes-card__body .doc-include li {
+  margin-bottom: var(--space-1);
+  color: var(--text-primary);
+}
+
+.release-notes-card__body p,
+.release-notes-card__body .doc-include p {
+  margin: 0 0 var(--space-3);
+}
+
+/* Code inside cards */
+.release-notes-card__body code,
+.release-notes-card__body .doc-include code {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  background-color: var(--bg-code);
+  padding: 0.1em 0.35em;
+  border-radius: var(--border-radius-sm);
+}
+
+/* ============================================
+   Overview Page Layout (.release-notes-overview)
+   ============================================ */
+.release-notes-overview {
+  max-width: 860px;
+}
+
+.release-notes-overview__title {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-3);
+  letter-spacing: -0.02em;
+}
+
+.release-notes-overview__description {
+  font-size: var(--font-size-lg);
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin: 0 0 var(--space-10);
+}
+
+/* Overview cards are slightly more compact */
+.release-notes-overview .release-notes-card {
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+}
+
+.release-notes-overview .release-notes-card__body {
+  margin-top: var(--space-3);
+}
+
+/* "View details" link in overview cards */
+.release-notes-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.release-notes-card__link:hover {
+  color: var(--color-primary-hover);
+  text-decoration: none;
+}
+
+.release-notes-card__link svg {
+  transition: transform var(--transition-fast);
+}
+
+.release-notes-card__link:hover svg {
+  transform: translateX(2px);
+}
+
+/* ============================================
+   Detail Page Layout (.release-notes-detail)
+   ============================================ */
+.release-notes-detail {
+  max-width: 860px;
+}
+
+.release-notes-detail__header {
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.release-notes-detail__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.release-notes-detail__title {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-4);
+  letter-spacing: -0.02em;
+}
+
+.release-notes-detail__description {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+/* Navigation between versions */
+.release-notes-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-12);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border-color);
+}
+
+.release-notes-nav__link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  color: var(--text-primary);
+  max-width: 48%;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.release-notes-nav__link:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+}
+
+.release-notes-nav__link--next {
+  text-align: right;
+  margin-left: auto;
+}
+
+.release-notes-nav__label {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.release-notes-nav__version {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* ============================================
+   Sidebar Date Display
+   (small date shown below version link in sidebar)
+   ============================================ */
+.sidebar__release-date {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  display: block;
+  padding-left: calc(var(--space-4) + 1.25rem);
+  padding-bottom: var(--space-1);
+  margin-top: calc(-1 * var(--space-1));
+  line-height: 1.2;
+}
+
+/* ============================================
+   Dark Mode Overrides
+   ============================================ */
+:root[data-theme="dark"] .release-notes-timeline::before {
+  background-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+
+:root[data-theme="dark"] .release-notes-card {
+  background-color: var(--bg-content);
+  border-color: var(--border-color);
+  border-left-color: var(--color-primary);
+}
+
+:root[data-theme="dark"] .release-notes-card::before {
+  border-color: var(--bg-content);
+}
+
+:root[data-theme="dark"] .release-notes-card__component-tag {
+  background-color: var(--bg-code);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .release-notes-timeline::before {
+    background-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+  }
+
+  :root:not([data-theme]) .release-notes-card {
+    background-color: var(--bg-content);
+    border-color: var(--border-color);
+    border-left-color: var(--color-primary);
+  }
+
+  :root:not([data-theme]) .release-notes-card::before {
+    border-color: var(--bg-content);
+  }
+
+  :root:not([data-theme]) .release-notes-card__component-tag {
+    background-color: var(--bg-code);
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+  }
+}
+
+/* ============================================
+   Responsive: Mobile
+   ============================================ */
+@media (max-width: 768px) {
+  /* Hide timeline line on mobile */
+  .release-notes-timeline {
+    padding-left: 0;
+  }
+
+  .release-notes-timeline::before {
+    display: none;
+  }
+
+  /* Remove timeline dot on mobile */
+  .release-notes-card::before {
+    display: none;
+  }
+
+  /* Full-width cards, reduced padding */
+  .release-notes-card {
+    padding: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+
+  .release-notes-overview .release-notes-card {
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  /* Stack badge and date vertically */
+  .release-notes-card__header {
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-3);
+  }
+
+  .release-notes-version-badge {
+    font-size: var(--font-size-xs);
+  }
+
+  /* Detail page responsive */
+  .release-notes-detail__title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .release-notes-overview__title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .release-notes-nav {
+    flex-direction: column;
+  }
+
+  .release-notes-nav__link {
+    max-width: 100%;
+  }
+
+  .release-notes-nav__link--next {
+    text-align: left;
+    margin-left: 0;
+  }
+}
