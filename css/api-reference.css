@@ -1,0 +1,274 @@
+/* ============================================
+   API Reference - Custom Styles
+   ============================================ */
+
+/* Block 1: Light mode variables */
+:root,
+:root[data-theme="light"] {
+  --api-get: #3B82F6;
+  --api-get-bg: #EFF6FF;
+  --api-post: #10B981;
+  --api-post-bg: #ECFDF5;
+  --api-put: #F59E0B;
+  --api-put-bg: #FFFBEB;
+  --api-delete: #EF4444;
+  --api-delete-bg: #FEF2F2;
+  --api-patch: #8B5CF6;
+  --api-patch-bg: #F5F3FF;
+}
+
+/* Block 2: Explicit dark mode */
+:root[data-theme="dark"] {
+  --api-get: #60A5FA;
+  --api-get-bg: rgba(59, 130, 246, 0.15);
+  --api-post: #34D399;
+  --api-post-bg: rgba(16, 185, 129, 0.15);
+  --api-put: #FBBF24;
+  --api-put-bg: rgba(245, 158, 11, 0.15);
+  --api-delete: #F87171;
+  --api-delete-bg: rgba(239, 68, 68, 0.15);
+  --api-patch: #A78BFA;
+  --api-patch-bg: rgba(139, 92, 246, 0.15);
+}
+
+/* Block 3: System preference dark mode */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --api-get: #60A5FA;
+    --api-get-bg: rgba(59, 130, 246, 0.15);
+    --api-post: #34D399;
+    --api-post-bg: rgba(16, 185, 129, 0.15);
+    --api-put: #FBBF24;
+    --api-put-bg: rgba(245, 158, 11, 0.15);
+    --api-delete: #F87171;
+    --api-delete-bg: rgba(239, 68, 68, 0.15);
+    --api-patch: #A78BFA;
+    --api-patch-bg: rgba(139, 92, 246, 0.15);
+  }
+}
+
+/* ============================================
+   API Method Badges (content area)
+   ============================================ */
+.api-method {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.2em 0.55em;
+  border-radius: var(--border-radius-sm);
+  line-height: 1.5;
+  vertical-align: middle;
+  margin-bottom: var(--space-2);
+}
+
+.api-method--get {
+  color: var(--api-get);
+  background-color: var(--api-get-bg);
+}
+
+.api-method--post {
+  color: var(--api-post);
+  background-color: var(--api-post-bg);
+}
+
+.api-method--put {
+  color: var(--api-put);
+  background-color: var(--api-put-bg);
+}
+
+.api-method--delete {
+  color: var(--api-delete);
+  background-color: var(--api-delete-bg);
+}
+
+.api-method--patch {
+  color: var(--api-patch);
+  background-color: var(--api-patch-bg);
+}
+
+/* ============================================
+   Endpoint path code block
+   ============================================ */
+.api-endpoint__path {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  background-color: var(--bg-code);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--border-radius-sm);
+  margin: var(--space-3) 0 var(--space-4);
+  word-break: break-all;
+  color: var(--text-primary);
+}
+
+/* ============================================
+   Sidebar API Method Badges (tiny variant)
+   ============================================ */
+.sidebar__api-method {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.1em 0.4em;
+  border-radius: var(--border-radius-sm);
+  line-height: 1.4;
+  vertical-align: middle;
+  margin-right: var(--space-1);
+  flex-shrink: 0;
+}
+
+.sidebar__api-method--get {
+  color: var(--api-get);
+  background-color: var(--api-get-bg);
+}
+
+.sidebar__api-method--post {
+  color: var(--api-post);
+  background-color: var(--api-post-bg);
+}
+
+.sidebar__api-method--put {
+  color: var(--api-put);
+  background-color: var(--api-put-bg);
+}
+
+.sidebar__api-method--delete {
+  color: var(--api-delete);
+  background-color: var(--api-delete-bg);
+}
+
+.sidebar__api-method--patch {
+  color: var(--api-patch);
+  background-color: var(--api-patch-bg);
+}
+
+/* ============================================
+   Endpoint List (list.html)
+   ============================================ */
+.api-endpoint-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.api-endpoint-list__item {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--bg-content);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.api-endpoint-list__item:hover {
+  border-color: var(--border-color-strong);
+  background-color: var(--bg-hover);
+  text-decoration: none;
+}
+
+.api-endpoint-list__path {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background: none;
+  padding: 0;
+}
+
+.api-endpoint-list__title {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.api-endpoint-list__desc {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+/* ============================================
+   Parameter Table Improvements
+   ============================================ */
+.doc-content__body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+  margin: var(--space-6) 0;
+}
+
+.doc-content__body table th,
+.doc-content__body table td {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-color);
+  text-align: left;
+  vertical-align: top;
+}
+
+.doc-content__body table th {
+  background-color: var(--bg-code);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Emphasize required "Yes" cells */
+.doc-content__body table td:nth-child(3) {
+  font-weight: 500;
+}
+
+/* Highlight required Yes values */
+.doc-content__body table tr td:nth-child(3)[data-required="true"],
+.doc-content__body table tr:has(td:nth-child(3):not(:empty)) td:nth-child(3) {
+  /* fallback: mark via content if markdown renders "Yes" */
+}
+
+/* Simple approach: any standalone "Yes" in a table cell */
+.doc-content__body table td code {
+  background-color: var(--bg-code);
+  padding: 0.1em 0.35em;
+  border-radius: var(--border-radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+}
+
+/* ============================================
+   Responsive: Mobile table horizontal scroll
+   ============================================ */
+@media (max-width: 768px) {
+  .doc-content__body table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+
+  .api-endpoint-list__item {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .api-endpoint-list__path {
+    grid-column: 1 / -1;
+  }
+
+  .api-endpoint-list__desc {
+    grid-column: 1 / -1;
+    text-align: left;
+    max-width: 100%;
+    white-space: normal;
+  }
+}
