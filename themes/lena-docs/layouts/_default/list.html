@@ -28,9 +28,9 @@
       <span class="card__date">{{ .Date.Format "2006.01.02" }}</span>
       {{ end }}
       {{ if .Params.description }}
-      <p class="card__description">{{ .Params.description }}</p>
+      <p class="card__description">{{ .Params.description | plainify }}</p>
       {{ else if .Summary }}
-      <p class="card__description">{{ .Summary | truncate 100 }}</p>
+      <p class="card__description">{{ .Summary | plainify | truncate 100 }}</p>
       {{ end }}
     </a>
     {{ end }}
