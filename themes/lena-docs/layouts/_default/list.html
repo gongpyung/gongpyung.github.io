@@ -14,6 +14,7 @@
   {{ end }}
 
   {{ $pages := sort .Pages "Weight" "desc" }}
+  {{ $hideCardDescription := eq .Section "docs" }}
   {{ if $pages }}
   <div class="card-grid">
     {{ range $pages }}
@@ -27,10 +28,12 @@
       {{ if not .Date.IsZero }}
       <span class="card__date">{{ .Date.Format "2006.01.02" }}</span>
       {{ end }}
-      {{ if .Params.description }}
-      <p class="card__description">{{ .Params.description | plainify }}</p>
-      {{ else if .Summary }}
-      <p class="card__description">{{ .Summary | plainify | truncate 100 }}</p>
+      {{ if not $hideCardDescription }}
+        {{ if .Params.description }}
+        <p class="card__description">{{ .Params.description | plainify }}</p>
+        {{ else if .Summary }}
+        <p class="card__description">{{ .Summary | plainify | truncate 100 }}</p>
+        {{ end }}
       {{ end }}
     </a>
     {{ end }}
