@@ -1,0 +1,35 @@
+name: docs 3g rendering regression
+
+on:
+  pull_request:
+    paths:
+      - 'themes/lena-docs/layouts/shortcodes/**'
+      - 'layouts/**'
+      - 'static/js/**'
+      - 'static/custom.css'
+      - 'content/**'
+      - 'scripts/**'
+      - '.github/workflows/docs-3g-regression.yml'
+  workflow_dispatch:
+
+jobs:
+  check-3g-rendering:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+
+      - name: Install Playwright browser
+        run: npx --yes playwright install --with-deps chromium
+
+      - name: Run 3G rendering regression check
+        run: scripts/check-docs-3g-regression.sh

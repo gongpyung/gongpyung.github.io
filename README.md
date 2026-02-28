@@ -58,3 +58,23 @@ python tools/api-reference/generate_pages.py
 
 - Keep theme-level changes inside `themes/lena-docs/`
 - Prefer small, focused commits for UI tweaks
+
+## 3G Rendering Regression Check (Playwright)
+
+Use this to catch the "initially oversized then reflow" issue under slow network before deploy.
+
+```bash
+scripts/check-docs-3g-regression.sh
+```
+
+Optional custom targets:
+
+```bash
+scripts/check-docs-3g-regression.sh \
+  --path /docs/1.3.4/1.3.4.2/installation/ \
+  --path /docs/1.3.4/1.3.4.2/userguide/
+```
+
+Output:
+- JSON report: `test-results/playwright-3g/report.json`
+- Screenshots: `test-results/playwright-3g/*.png`

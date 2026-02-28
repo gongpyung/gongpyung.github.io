@@ -8,7 +8,17 @@
 {{- if (.Get "language") -}}
     {{- highlight ($file | readFile) $language (default "linenos=table" $options) -}}
 {{- else if eq $type "html" -}}
-    {{- $file | readFile | safeHTML -}}
+    {{- $raw := $file | readFile -}}
+    {{- $clean := $raw -}}
+    {{- /* Build-time sanitize: prevent first-paint flicker from legacy full-document includes */ -}}
+    {{- $clean = replaceRE `(?is)<!doctype[^>]*>` "" $clean -}}
+    {{- $clean = replaceRE `(?is)<head[^>]*>.*?</head>` "" $clean -}}
+    {{- $clean = replaceRE `(?is)<style[^>]*>.*?</style>` "" $clean -}}
+    {{- $clean = replaceRE `(?is)<script[^>]*>.*?</script>` "" $clean -}}
+    {{- $clean = replaceRE `(?is)<link[^>]*rel=["']stylesheet["'][^>]*>` "" $clean -}}
+    {{- $clean = replaceRE `(?is)</?html[^>]*>` "" $clean -}}
+    {{- $clean = replaceRE `(?is)</?body[^>]*>` "" $clean -}}
+    {{- $clean | safeHTML -}}
 {{- else if eq $type "page" -}}
     {{- with $page }}{{ .Content }}{{ end -}}
 {{- else -}}
