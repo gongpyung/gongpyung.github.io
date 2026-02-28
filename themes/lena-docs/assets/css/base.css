@@ -66,6 +66,7 @@ body {
   max-width: var(--content-max-width);
   margin: 0 auto;
   padding: var(--space-8) var(--space-10);
+  order: 1;
 }
 
 .layout__toc {
@@ -77,6 +78,7 @@ body {
   padding: var(--space-8) var(--space-4);
   flex-shrink: 0;
   display: none;
+  order: 2;
 }
 
 /* Links */
