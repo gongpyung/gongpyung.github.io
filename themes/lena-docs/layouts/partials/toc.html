@@ -1,10 +1,41 @@
+{{- $tocHTML := "" -}}
+{{- $hugoTOC := .TableOfContents -}}
+
+{{- /* 1) Prefer Hugo TOC only when it actually has entries */ -}}
+{{- if and $hugoTOC (gt (len (findRE `(?is)<li` $hugoTOC)) 0) -}}
+  {{- $tocHTML = $hugoTOC -}}
+{{- else -}}
+  {{- /* 2) Build-time fallback for include-heavy pages (e.g., User Guide) */ -}}
+  {{- $headingMatches := findRE `(?is)<h[2-4][^>]*>.*?</h[2-4]>` .Content -}}
+  {{- if gt (len $headingMatches) 0 -}}
+    {{- $items := slice -}}
+    {{- range $headingMatches -}}
+      {{- $heading := . -}}
+      {{- $idMatch := findRE `id="[^"]+"` $heading 1 -}}
+      {{- if gt (len $idMatch) 0 -}}
+        {{- $id := replaceRE `^id="([^"]+)"$` "$1" (index $idMatch 0) -}}
+        {{- $level := replaceRE `(?is)^<h([2-4]).*` "$1" $heading -}}
+        {{- $text := $heading | replaceRE `(?is)^<h[2-4][^>]*>` "" | replaceRE `(?is)</h[2-4]>$` "" | replaceRE `(?is)<[^>]+>` "" | strings.TrimSpace -}}
+        {{- if and $id $text -}}
+          {{- $item := printf `<li class="toc__lvl-%s"><a href="#%s">%s</a></li>` $level $id ($text | htmlEscape) -}}
+          {{- $items = $items | append $item -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- if gt (len $items) 0 -}}
+      {{- $tocHTML = printf `<ul>%s</ul>` (delimit $items "") -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
 <aside class="layout__toc toc" id="rightToc">
   <div class="toc__header"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256" class="text-text-500/50 hover:text-text-300"><path d="M32,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H40A8,8,0,0,1,32,64Zm8,48H168a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16Zm176,24H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm-48,40H40a8,8,0,0,0,0,16H168a8,8,0,0,0,0-16Z"></path></svg></div>
   <div class="toc__content">
     <nav>
-      {{ if .TableOfContents }}
-        {{ .TableOfContents }}
-      {{ end }}
+      {{- with $tocHTML -}}
+        {{ . | safeHTML }}
+      {{- end -}}
     </nav>
   </div>
 </aside>

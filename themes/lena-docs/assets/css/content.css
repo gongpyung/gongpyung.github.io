@@ -295,6 +295,15 @@
   padding-left: var(--space-3);
 }
 
+/* Build-time generated flat TOC indentation */
+.toc__content li.toc__lvl-3 > a {
+  padding-left: calc(var(--space-3) + 12px);
+}
+
+.toc__content li.toc__lvl-4 > a {
+  padding-left: calc(var(--space-3) + 24px);
+}
+
 /* Page Navigation */
 .page-nav {
   margin-top: var(--space-12);
