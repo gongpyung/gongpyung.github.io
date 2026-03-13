@@ -45,6 +45,10 @@
     display: flex;
   }
 
+  .sidebar__mobile-nav {
+    display: flex;
+  }
+
   .header__search-hint {
     display: none;
   }
