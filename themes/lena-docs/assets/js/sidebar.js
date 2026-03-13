@@ -30,7 +30,7 @@
     overlay.addEventListener('click', closeSidebar);
 
     // Close on nav link click (mobile)
-    sidebar.querySelectorAll('a.sidebar__link').forEach(function(link) {
+    sidebar.querySelectorAll('a.sidebar__link, .sidebar__mobile-nav a').forEach(function(link) {
       link.addEventListener('click', function() {
         if (window.innerWidth < 1024) {
           closeSidebar();

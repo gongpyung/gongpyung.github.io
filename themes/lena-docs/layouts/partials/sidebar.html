@@ -142,6 +142,25 @@
       </svg>
     </button>
 
+    {{/* ── Mobile Top-Level Nav (mirrors header.html) ── */}}
+    <nav class="sidebar__mobile-nav" aria-label="Main navigation">
+      <a href="{{ (printf "docs/%s/" $latestVersion) | relLangURL }}"
+         class="sidebar__mobile-nav-item{{ if eq .Section "docs" }} is-active{{ end }}">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 2h7l3 3v9a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.3"/><path d="M5 9h6M5 11.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        Docs
+      </a>
+      <a href="{{ "api-reference/" | relLangURL }}"
+         class="sidebar__mobile-nav-item{{ if eq .Section "api-reference" }} is-active{{ end }}">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 3.5l-2.5 4 2.5 4M12 3.5l2.5 4-2.5 4M9.5 2l-3 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        API Reference
+      </a>
+      <a href="{{ "release-notes/" | relLangURL }}"
+         class="sidebar__mobile-nav-item{{ if eq .Section "release-notes" }} is-active{{ end }}">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v4l2.5 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/></svg>
+        Release Notes
+      </a>
+    </nav>
+
     {{/* ── Version Selector ── */}}
     {{ if and (not .IsHome) (not $isComingSection) (not $isApiSection) }}
     <div class="sidebar__version">
