@@ -45,6 +45,26 @@
     display: flex;
   }
 
+  .header__inner {
+    padding: 0 var(--space-3);
+  }
+
+  .header__brand,
+  .header__left {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .header__logo-title {
+    font-size: var(--font-size-lg);
+  }
+
+  .header__right {
+    flex-shrink: 0;
+    gap: var(--space-1);
+    padding-right: 0;
+  }
+
   .sidebar__mobile-nav {
     display: flex;
   }
