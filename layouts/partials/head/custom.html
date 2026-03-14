@@ -1,5 +1,5 @@
 {{/* Custom head content */}}
-<link rel="stylesheet" href="{{ "custom.css" | relURL }}">
+<link rel="stylesheet" href="{{ "custom.css" | relURL }}?v={{ now.Unix }}">
 {{ if eq .Section "api-reference" }}
 <link rel="stylesheet" href="{{ "css/api-reference.css" | relURL }}">
 {{ end }}
